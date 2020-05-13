@@ -1,0 +1,272 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>deVries</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-12"><meta name="DC.source" content="devries.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>deVries</h1><!--introduction--><p>Calculates the thermal conductivity of porous media.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Inputs</a></li><li><a href="#3">See also</a></li><li><a href="#4">References</a></li><li><a href="#5">Updates</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>TC = devries(theta_l,T,theta_i,rho_b,P,dg,lambda_s,q0,gs)</tt></p><h2>Inputs<a name="2"></a></h2><pre>     Parameter   Variable                        Units
+     theta_l     liquid water content            m3 m-3
+     T           temperature                     K
+     theta_i     ice content                     m3 m-3
+     rho_b       bulk density                    kg m-3
+     P           atmospheric pressure            Pa
+     dg          geometric mean grain diameter   microns
+     lambda_s    thermal conductivity of solids  W m-1 K-1
+     q0          liquid recirculation exponent   n/a
+     gs          shape factor for soil solids    n/a</pre><h2>See also<a name="3"></a></h2><p><a href="deVriesSaturationExample.html"><tt>deVriesSaturationExample</tt></a></p><h2>References<a name="4"></a></h2><p>de Vries, D.A. 1963. Physics of Plant Environment by W.R. van Wijk. Chapter 7.</p><p>Campbell et al. 1994. Soil Sci. 158:307-313.</p><p>Ochsner, T.E., Horton, R. and Ren, T.H. 2001. A new perspective on soil thermal properties. Soil Sci Soc Am J 65: 1641-1647.</p><h2>Updates<a name="5"></a></h2><p>Created by Tyson E. Ochsner, November 30, 2006</p><pre class="codeinput"><span class="comment">% Step 1:  Determine the continuous medium</span>
+vs = rho_b/2650;  <span class="comment">% volume fraction of solids (2650 kg m3 is the density of the solids)</span>
+theta_s = 1 - vs; <span class="comment">% saturated water content</span>
+vg = 1 - vs - theta_l - theta_i; <span class="comment">% air content</span>
+
+media = [0 0 0 0];
+<span class="keyword">if</span> theta_l &gt; 0.2*theta_s
+    media(1)=1; <span class="comment">%water is the continuous media</span>
+<span class="keyword">elseif</span> theta_i &gt; vg
+    media(2)=1; <span class="comment">%ice is the continuous media</span>
+<span class="keyword">else</span>
+    media(3)=1; <span class="comment">%air is the continous media</span>
+<span class="keyword">end</span>
+media = logical(media);
+
+<span class="comment">% Step 2:  Calculate thermal conductivities of the various constituents</span>
+lambda_w = 0.554 + 2.24*10^-3*(T-273.15)-9.87*10^-6*(T-273.15)^2; <span class="comment">%water</span>
+lambda_a = 0.024 + 7.73*10^-5*(T-273.15)-2.6*10^-8*(T-273.15)^2; <span class="comment">%dry air</span>
+lambda_i = 2.16 - 1.01*10^-2*(T-273.15)+5.28*10^-5*(T-273.15)^2; <span class="comment">%ice</span>
+
+<span class="comment">% The following are needed to calculate the thermal conductivity of the gas</span>
+<span class="comment">% phase according to the procedure of Campbell et al. 1994. Soil Science</span>
+<span class="comment">% 158:307-313.</span>
+
+Hv = 45144 - 48*(T-273.15); <span class="comment">% latent heat of vaporization</span>
+h = 1; <span class="comment">% relative humidity</span>
+q = q0*(T/303)^2; <span class="comment">% exponent for water recirculation function</span>
+xw0 = 0.267*dg^(-0.2); <span class="comment">% cutoff water content for liquid recirculation</span>
+fw = [1+(theta_l/xw0)^-q]^-1; <span class="comment">% weighting function from Campbell et al. 1994</span>
+P0 = 101325; <span class="comment">% atmospheric pressure at sea level (Pa)</span>
+rho_0 = 44.65; <span class="comment">%standard density of dry air (mol m-3)</span>
+rho_hat = rho_0*(P/P0)*(273.15/T); <span class="comment">%density of dry air</span>
+Dv0 = 2.12*10^-5; <span class="comment">% standard diffusivity of water vapor in air (m2 s-1)</span>
+Dv = Dv0*(P0/P)*(T/273.15)^1.75; <span class="comment">% diffusivity of water vapor in air</span>
+t = 1 - 375.15/T; <span class="comment">% dimensionless temperature</span>
+p_star = P0*exp(13.3016*t - 2.042*t^2 + 0.26*t^3 + 2.69*t^4); <span class="comment">% sat vap press (Pa)</span>
+s = 375.15*p_star*(13.3016 - 4.082*t + 0.78*t^2 +10.76*t^3)/T^2; <span class="comment">% slope</span>
+
+lambda_v = Hv*h*fw*rho_hat*Dv*s/(P-h*p_star); <span class="comment">% latent heat effect on lambda</span>
+lambda_g = lambda_a + lambda_v; <span class="comment">% effective thermal conduvtivity of gas phase</span>
+
+lambdaarray = [lambda_w lambda_i lambda_g lambda_s];
+lambda_0 = lambdaarray(media); <span class="comment">% select the conductivity of the continous media</span>
+
+<span class="comment">%Step 3:  Calculate the weighting factors</span>
+
+<span class="comment">%Solids</span>
+ks = 2/3*[1+(lambda_s/lambda_0 - 1)*gs]^-1 + 1/3*[1+(lambda_s/lambda_0 - 1)*(1-2*gs)]^-1;
+
+<span class="comment">%Water</span>
+gw = gs; <span class="comment">%As assumed by de Vries (1963) and Hopmans and Dane (1986)</span>
+kw = 2/3*[1+(lambda_w/lambda_0 - 1)*gw]^-1 + 1/3*[1+(lambda_w/lambda_0 - 1)*(1-2*gw)]^-1;
+
+<span class="comment">%Gas</span>
+<span class="comment">%The shape factor function below is my simplification based on the work of</span>
+<span class="comment">%de Vries (1963), Hopmans and Dane (1986), and Campbell et al. (1994)</span>
+<span class="keyword">if</span> theta_l &gt; xw0
+    gg = 1/3;
+<span class="keyword">else</span>
+    gg = 1/3*(theta_l/xw0);
+<span class="keyword">end</span>
+kg = 2/3*[1+(lambda_g/lambda_0 - 1)*gg]^-1 + 1/3*[1+(lambda_g/lambda_0 - 1)*(1-2*gg)]^-1;
+
+<span class="comment">%Ice</span>
+<span class="comment">%Ice would tend to follow the same pore geometry as air, so the shape</span>
+<span class="comment">%factor is the same</span>
+<span class="keyword">if</span> theta_l &gt; xw0
+    gi = 1/3;
+<span class="keyword">else</span>
+    gi = 1/3*(theta_l/xw0);
+<span class="keyword">end</span>
+ki = 2/3*[1+(lambda_i/lambda_0 - 1)*gi]^-1 + 1/3*[1+(lambda_i/lambda_0 - 1)*(1-2*gi)]^-1;
+
+<span class="comment">%Step 5:  Calculate thermal conductivity</span>
+
+TC = (kw*theta_l*lambda_w + ki*theta_i*lambda_i + ks*vs*lambda_s + kg*vg*lambda_g)/<span class="keyword">...</span>
+    (kw*theta_l + ki*theta_i + ks*vs + kg*vg);
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% deVries
+% Calculates the thermal conductivity of porous media. 
+%
+%% Syntax
+%
+% |TC = devries(theta_l,T,theta_i,rho_b,P,dg,lambda_s,q0,gs)|
+%
+%% Inputs
+%       Parameter   Variable                        Units
+%       theta_l     liquid water content            m3 m-3
+%       T           temperature                     K
+%       theta_i     ice content                     m3 m-3
+%       rho_b       bulk density                    kg m-3
+%       P           atmospheric pressure            Pa
+%       dg          geometric mean grain diameter   microns
+%       lambda_s    thermal conductivity of solids  W m-1 K-1
+%       q0          liquid recirculation exponent   n/a
+%       gs          shape factor for soil solids    n/a
+%
+%% See also
+% <deVriesSaturationExample.html |deVriesSaturationExample|>
+%
+%% References
+%
+% de Vries, D.A. 1963. Physics of Plant Environment by W.R. van Wijk. Chapter 7.
+%
+% Campbell et al. 1994. Soil Sci. 158:307-313.
+%
+% Ochsner, T.E., Horton, R. and Ren, T.H. 2001. A new perspective on soil 
+% thermal properties. Soil Sci Soc Am J 65: 1641-1647.
+%
+%% Updates
+%
+% Created by Tyson E. Ochsner, November 30, 2006
+
+%%
+%
+
+% Step 1:  Determine the continuous medium
+vs = rho_b/2650;  % volume fraction of solids (2650 kg m3 is the density of the solids)
+theta_s = 1 - vs; % saturated water content
+vg = 1 - vs - theta_l - theta_i; % air content
+
+media = [0 0 0 0];
+if theta_l > 0.2*theta_s
+    media(1)=1; %water is the continuous media
+elseif theta_i > vg
+    media(2)=1; %ice is the continuous media
+else
+    media(3)=1; %air is the continous media
+end
+media = logical(media);
+
+% Step 2:  Calculate thermal conductivities of the various constituents
+lambda_w = 0.554 + 2.24*10^-3*(T-273.15)-9.87*10^-6*(T-273.15)^2; %water
+lambda_a = 0.024 + 7.73*10^-5*(T-273.15)-2.6*10^-8*(T-273.15)^2; %dry air
+lambda_i = 2.16 - 1.01*10^-2*(T-273.15)+5.28*10^-5*(T-273.15)^2; %ice
+
+% The following are needed to calculate the thermal conductivity of the gas
+% phase according to the procedure of Campbell et al. 1994. Soil Science
+% 158:307-313.
+
+Hv = 45144 - 48*(T-273.15); % latent heat of vaporization
+h = 1; % relative humidity
+q = q0*(T/303)^2; % exponent for water recirculation function
+xw0 = 0.267*dg^(-0.2); % cutoff water content for liquid recirculation
+fw = [1+(theta_l/xw0)^-q]^-1; % weighting function from Campbell et al. 1994
+P0 = 101325; % atmospheric pressure at sea level (Pa)
+rho_0 = 44.65; %standard density of dry air (mol m-3)
+rho_hat = rho_0*(P/P0)*(273.15/T); %density of dry air
+Dv0 = 2.12*10^-5; % standard diffusivity of water vapor in air (m2 s-1)
+Dv = Dv0*(P0/P)*(T/273.15)^1.75; % diffusivity of water vapor in air
+t = 1 - 375.15/T; % dimensionless temperature
+p_star = P0*exp(13.3016*t - 2.042*t^2 + 0.26*t^3 + 2.69*t^4); % sat vap press (Pa)
+s = 375.15*p_star*(13.3016 - 4.082*t + 0.78*t^2 +10.76*t^3)/T^2; % slope
+
+lambda_v = Hv*h*fw*rho_hat*Dv*s/(P-h*p_star); % latent heat effect on lambda
+lambda_g = lambda_a + lambda_v; % effective thermal conduvtivity of gas phase
+
+lambdaarray = [lambda_w lambda_i lambda_g lambda_s];
+lambda_0 = lambdaarray(media); % select the conductivity of the continous media
+
+%Step 3:  Calculate the weighting factors
+
+%Solids
+ks = 2/3*[1+(lambda_s/lambda_0 - 1)*gs]^-1 + 1/3*[1+(lambda_s/lambda_0 - 1)*(1-2*gs)]^-1;
+
+%Water
+gw = gs; %As assumed by de Vries (1963) and Hopmans and Dane (1986)
+kw = 2/3*[1+(lambda_w/lambda_0 - 1)*gw]^-1 + 1/3*[1+(lambda_w/lambda_0 - 1)*(1-2*gw)]^-1;
+
+%Gas
+%The shape factor function below is my simplification based on the work of
+%de Vries (1963), Hopmans and Dane (1986), and Campbell et al. (1994)
+if theta_l > xw0
+    gg = 1/3;
+else
+    gg = 1/3*(theta_l/xw0);
+end
+kg = 2/3*[1+(lambda_g/lambda_0 - 1)*gg]^-1 + 1/3*[1+(lambda_g/lambda_0 - 1)*(1-2*gg)]^-1;
+
+%Ice
+%Ice would tend to follow the same pore geometry as air, so the shape
+%factor is the same
+if theta_l > xw0
+    gi = 1/3;
+else
+    gi = 1/3*(theta_l/xw0);
+end
+ki = 2/3*[1+(lambda_i/lambda_0 - 1)*gi]^-1 + 1/3*[1+(lambda_i/lambda_0 - 1)*(1-2*gi)]^-1;
+
+%Step 5:  Calculate thermal conductivity
+
+TC = (kw*theta_l*lambda_w + ki*theta_i*lambda_i + ks*vs*lambda_s + kg*vg*lambda_g)/...
+    (kw*theta_l + ki*theta_i + ks*vs + kg*vg);
+##### SOURCE END #####
+--></body></html>

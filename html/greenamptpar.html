@@ -1,0 +1,158 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>greenamptpar</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-12"><meta name="DC.source" content="greenamptpar.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>greenamptpar</h1><!--introduction--><p>Returns the Green-Ampt model parameters according to soil textural classes.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Input</a></li><li><a href="#3">Outputs</a></li><li><a href="#4">Example</a></li><li><a href="#5">See also</a></li><li><a href="#6">References</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[AllParameters, phi, theta_e, psi_f, Ko] = greenamptpar (TexturalClass)</tt></p><h2>Input<a name="2"></a></h2><pre>     TexturalClass = one of the possible soil textural classes. Input must be a string.</pre><h2>Outputs<a name="3"></a></h2><pre>     phi = total porosity [cm3/cm3]
+     theta_e = effective porosity [cm3/cm3]
+     psi_f = wetted front capillary pressure [cm]
+     Ko= hydraulic conductivity [cm/h]</pre><h2>Example<a name="4"></a></h2><p><tt>greenamptpar('Sand')</tt></p><p>ans =</p><pre>  'Textural Class'    'phi [cm^3/cm^3]'    'theta_e [cm^3/cm^3]'    'psi_f [cm]'    'Ko [cm/h]'
+  'Sand'              [         0.4370]    [             0.4170]    [    4.9500]    [  11.7800]</pre><h2>See also<a name="5"></a></h2><p><a href="GreenAmpt.html"><tt>GreenAmpt</tt></a></p><h2>References<a name="6"></a></h2><p>Rawls, W.J., Brakensiek, D.L. and Miller, N. 1983. Green-Ampt Infiltration Parameters from Soils Data. J Hydraul Eng-Asce 109: 62-70.</p><pre class="codeinput"><span class="comment">%Create cell array</span>
+Headers = {<span class="string">'Textural Class'</span> <span class="string">'phi [cm^3/cm^3]'</span> <span class="string">'theta_e [cm^3/cm^3]'</span> <span class="string">'psi_f [cm]'</span> <span class="string">'Ko [cm/h]'</span>};
+ParameterList = {<span class="string">'Sand'</span>,0.437,0.417,4.95,11.78;<span class="keyword">...</span>
+                <span class="string">'Loamy Sand'</span>,0.437,0.401,6.13,2.99;<span class="keyword">...</span>
+                <span class="string">'Sandy Loam'</span>,0.453,0.412,11.01,1.09;<span class="keyword">...</span>
+                <span class="string">'Loam'</span>,0.463,0.434,8.89,0.34;<span class="keyword">...</span>
+                <span class="string">'Silt Loam'</span>,0.501,0.486,16.68,0.65;<span class="keyword">...</span>
+                <span class="string">'Sandy Clay Loam'</span>,0.398,0.330,21.85,0.15;<span class="keyword">...</span>
+                <span class="string">'Clay Loam'</span>,0.464,0.309,20.88,0.10;<span class="keyword">...</span>
+                <span class="string">'Silty Clay Loam'</span>,0.471,0.432,27.30,0.10;<span class="keyword">...</span>
+                <span class="string">'Sandy Clay'</span>,0.430,0.321,23.90,0.06;<span class="keyword">...</span>
+                <span class="string">'Silty Clay'</span>,0.479,0.423,29.22,0.05;<span class="keyword">...</span>
+                <span class="string">'Clay'</span>,0.475,0.385,31.63,0.03};
+txtIdx = strcmpi(ParameterList(:,1),TexturalClass); <span class="comment">% Find match for user's input.</span>
+
+<span class="comment">% Prepare output</span>
+phi = cell2mat(ParameterList(txtIdx,2));
+theta_e = cell2mat(ParameterList(txtIdx,3));
+psi_f = cell2mat(ParameterList(txtIdx,4));
+Ko = cell2mat(ParameterList(txtIdx,5));
+AllParameters = [Headers; ParameterList(txtIdx,1:5)]; <span class="comment">% All parameters in a matrix.</span>
+</pre><p>Copyright 2013 <i>This function is part of the Soil Physics Toolbox  created by the Soil Physics team at the Plant and Soil Sciences Department, Oklahoma State University.</i></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% greenamptpar
+% Returns the Green-Ampt model parameters according to soil textural classes.
+%
+%% Syntax
+%
+% |[AllParameters, phi, theta_e, psi_f, Ko] = greenamptpar (TexturalClass)|
+%
+%% Input
+%       TexturalClass = one of the possible soil textural classes. Input must be a string.
+%
+%% Outputs
+%       phi = total porosity [cm3/cm3]
+%       theta_e = effective porosity [cm3/cm3]
+%       psi_f = wetted front capillary pressure [cm]
+%       Ko= hydraulic conductivity [cm/h]
+%
+%% Example
+% |greenamptpar('Sand')|
+%
+% ans = 
+%
+%    'Textural Class'    'phi [cm^3/cm^3]'    'theta_e [cm^3/cm^3]'    'psi_f [cm]'    'Ko [cm/h]'
+%    'Sand'              [         0.4370]    [             0.4170]    [    4.9500]    [  11.7800]
+%
+%% See also
+% <GreenAmpt.html |GreenAmpt|>
+%
+%% References
+% Rawls, W.J., Brakensiek, D.L. and Miller, N. 1983. Green-Ampt Infiltration
+% Parameters from Soils Data. J Hydraul Eng-Asce 109: 62-70.
+%
+
+%%
+%
+%Create cell array
+Headers = {'Textural Class' 'phi [cm^3/cm^3]' 'theta_e [cm^3/cm^3]' 'psi_f [cm]' 'Ko [cm/h]'};
+ParameterList = {'Sand',0.437,0.417,4.95,11.78;...
+                'Loamy Sand',0.437,0.401,6.13,2.99;...
+                'Sandy Loam',0.453,0.412,11.01,1.09;...
+                'Loam',0.463,0.434,8.89,0.34;...
+                'Silt Loam',0.501,0.486,16.68,0.65;...
+                'Sandy Clay Loam',0.398,0.330,21.85,0.15;...
+                'Clay Loam',0.464,0.309,20.88,0.10;...
+                'Silty Clay Loam',0.471,0.432,27.30,0.10;...
+                'Sandy Clay',0.430,0.321,23.90,0.06;...
+                'Silty Clay',0.479,0.423,29.22,0.05;...
+                'Clay',0.475,0.385,31.63,0.03};
+txtIdx = strcmpi(ParameterList(:,1),TexturalClass); % Find match for user's input.
+
+% Prepare output
+phi = cell2mat(ParameterList(txtIdx,2));
+theta_e = cell2mat(ParameterList(txtIdx,3));
+psi_f = cell2mat(ParameterList(txtIdx,4));
+Ko = cell2mat(ParameterList(txtIdx,5));
+AllParameters = [Headers; ParameterList(txtIdx,1:5)]; % All parameters in a matrix.
+
+%%
+% Copyright 2013 _This function is part of the Soil Physics Toolbox  created by the Soil 
+% Physics team at the Plant and Soil Sciences Department, Oklahoma State University._
+%
+
+
+##### SOURCE END #####
+--></body></html>

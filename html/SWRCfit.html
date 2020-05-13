@@ -1,0 +1,276 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>SWRCFIT</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-12"><meta name="DC.source" content="SWRCfit.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>SWRCFIT</h1><!--introduction--><p>Fits soil water retention models to measured data.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Inputs</a></li><li><a href="#3">Output</a></li><li><a href="#4">Examples</a></li><li><a href="#7">See also</a></li><li><a href="#8">References</a></li><li><a href="#9">Updates</a></li><li><a href="#10">Soil water retention models</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[BCx, Cx, vGx, RMSE] = SWRCfit (theta_s, theta_v, h)</tt></p><p><tt>[BCx, Cx, vGx, RMSE] = SWRCfit (theta_s, theta_v, h)</tt> fits pairwise volumetric water content (<tt>theta_v</tt>), and soil matric potential (<tt>h</tt>) using three well known soil water retention models. Information about saturated volumetric water content (<tt>theta_s</tt>) is also required. <tt>BCx</tt>, <tt>Cx</tt>, and <tt>vGx</tt> are arrays containing the values of the fitted parameters for each model. <tt>RMSE</tt> reports the root mean squared error of each model.</p><h2>Inputs<a name="2"></a></h2><pre>     theta_s = volumetric water content at saturation (or total porosity) [cm3]</pre><pre>     theta_v = measured volumetric water content [cm3/cm3]</pre><pre>     h = matric potential at each theta_v [kPa]</pre><h2>Output<a name="3"></a></h2><p>BCx = Brooks and Corey fitting parameters (Model by Brooks and Corey, 1964)</p><pre>     BCx(1) = bubbling pressure
+     BCx(2) = lambda (pore size distribution)
+     BCx(3) = theta_r (residual water content)</pre><p>Cx = Campbell fitting parameters (Model by Campbell, 1974)</p><pre>     Cx(1) = bubbling pressure
+     Cx(2) = constant related to the pore size distribution.</pre><p>vGx = van Genuchten fitting parameters (Model by van Genuchten, 1980)</p><pre>     vGx(1) = alpha (inverse of bubbling pressure) [1/cm or 1/kPa]
+     vGx(2) = theta_r [cm3/cm3]
+     vGx(3) = n (related to pore size distribution)</pre><h2>Examples<a name="4"></a></h2><p>The following example fits all three models for measured data in a silt loam soil (data measured by Or et al., 1991).</p><pre class="codeinput">theta_v=[0.513 0.513 0.321 0.225 0.138 0.120 0.098 0.07 0.064 0.060]; <span class="comment">% volumetric water content (cm3/cm3).</span>
+h=[1 2 5 10 33 50 100 500 1000 1500]; <span class="comment">% soil matric potential (kPa).</span>
+[BCx, Cx, vGx, RMSE] = SWRCfit (0.513, theta_v, h); <span class="comment">% Call function. Saturated vol. water content is 0.513 cm3/cm3.</span>
+</pre><pre>  BCx =</pre><pre>       2.0408
+       0.6094
+       0.0535</pre><pre>  Cx =</pre><pre>       1.8366
+       2.3385</pre><pre>  vGx =</pre><pre>       0.2448
+       0.0736
+       2.0658</pre><pre>  RMSE =</pre><pre>       'SWRC Model'          'RMSE'      'Unit'
+       'Brooks and Corey'    [0.0013]    'cm3/cm3'
+       'Campbell'            [0.0190]    'cm^3 cm^3'
+       'van Genuchten'       [0.0195]    'cm3/cm3'</pre><p>The resulting plot is:</p><p><img vspace="5" hspace="5" src="SWRCfit_plot1.png" alt=""> </p><h2>See also<a name="7"></a></h2><p><a href="SWRCfun.html"><tt>SWRCfun</tt></a>  |  <a href="rosetta.html"><tt>rosetta</tt></a>  |  <a href="soilwaterptf.html"><tt>soilwaterptf</tt></a></p><h2>References<a name="8"></a></h2><p>Brooks R.H. and A.T. Corey. 1964. Hydraulic properties of porous media. Hydrology papers No 3. Colorado State University. Fort Collins, Colorado.</p><p>Campbell, G.S. A simple method for determining unsaturated conductivity from moisture retention data. Soil Sci.,117,311-314.</p><p>van Genuchten, M.T.1980. A closed-form equation for predicting the hydraulic conductivity of unsaturated flow. Soil Sci. Soc. Am. J. 44, 892-898.</p><p>Or,D., D.P. Groeneveld, K. Loague, and Y. Rubin. 1991. Evaluation of single and multi-parameter methods for estimating soil-water characteristic curves. Geotechnical Engineering Report No. UCB/GT/91-07, University of California, Berkeley, 54 pp.</p><p>Tuller and Or, 2004. M. Tuller, D. Or, in: D. Hillel (Ed.), Water retention and characteristic curve. Encyclopedia of soils in the environment, Elsevier Ltd., Oxford, United Kingdom (2004), pp. 278&#8211;289.</p><h2>Updates<a name="9"></a></h2><p>Created by AP on 11-Dec-2013</p><h2>Soil water retention models<a name="10"></a></h2><div><ul><li>Brooks and Corey model</li></ul></div><p><img src="SWRCfit_eq19718.png" alt="$$ \frac{\theta-\theta_r}{\theta_s-\theta_r} = \bigg(\frac{\psi_b}{\psi_m}\bigg)^\lambda$$"></p><pre class="codeinput">BCmodel = @(BCx,h) min((BCx(1)./h).^BCx(2).*(theta_s-BCx(3))+BCx(3),theta_s); <span class="comment">% Brooks and Corey model</span>
+</pre><div><ul><li>Campbell model</li></ul></div><p><img src="SWRCfit_eq79738.png" alt="$$ \frac{\theta}{\theta_s} = \bigg(\frac{\psi_b}{\psi_m}\bigg)^\frac{1}{b}$$"></p><pre class="codeinput">Cmodel = @(Cx,h) min((Cx(1)./h).^(1/Cx(2)).* theta_s, theta_s); <span class="comment">% Campbell model</span>
+</pre><div><ul><li>van Genuchten model</li></ul></div><p><img src="SWRCfit_eq31922.png" alt="$$ \frac{\theta_v-\theta_r}{\theta_s-\theta_r} = \bigg[\frac{1}{1+(\alpha \psi_m)^n)}\bigg]^m $$"></p><pre class="codeinput">vGmodel = @(vGx,h) (1./(1+(vGx(1)*h).^vGx(3) )).^(1-1/vGx(3)) *(theta_s-vGx(2))+vGx(2); <span class="comment">% van Genuchten model</span>
+</pre><pre class="codeinput"><span class="comment">% Define tentative initial parameter values</span>
+BCx0=[2; 0.5; 0.07];
+Cx0=[2; 2];
+vGx0=[0.03;0.08; 1.5];
+
+<span class="comment">% Fit model to measured data using lsqcurvefit function</span>
+[BCx] = lsqcurvefit(BCmodel,BCx0,h,theta_v); <span class="comment">% Brooks and Corey anonymous function</span>
+[Cx] = lsqcurvefit(Cmodel,Cx0,h,theta_v); <span class="comment">% % Campbell anonymous function</span>
+[vGx] = lsqcurvefit(vGmodel,vGx0,h,theta_v); <span class="comment">% % van Genuchten anonymous function</span>
+
+<span class="comment">% Calculate root mean squared error (RMSE)</span>
+RMSE = {<span class="string">'SWRC Model'</span>, <span class="string">'RMSE'</span>, <span class="string">'Unit'</span>;<span class="keyword">...</span><span class="comment">    % Build cell array</span>
+        <span class="string">'Brooks and Corey'</span>,sqrt(mean((BCmodel(BCx,h)-theta_v).^2)),<span class="string">'cm3/cm3'</span>;<span class="keyword">...</span>
+        <span class="string">'Campbell'</span>,sqrt(mean((Cmodel(Cx,h)-theta_v).^2)),<span class="string">'cm^3 cm^3'</span>;<span class="keyword">...</span>
+        <span class="string">'van Genuchten'</span>, sqrt(mean((vGmodel(vGx,h)-theta_v).^2)),<span class="string">'cm3/cm3'</span>};
+
+<span class="comment">% Plot Data</span>
+plot(log10(1:1500),BCmodel(BCx,1:1500),<span class="string">'-r'</span>,<span class="string">'LineWidth'</span>,2);hold <span class="string">on</span>
+plot(log10(1:1500),Cmodel(Cx,1:1500),<span class="string">'-k'</span>,<span class="string">'LineWidth'</span>,2);hold <span class="string">on</span>
+plot(log10(1:1500),vGmodel(vGx,1:1500),<span class="string">'-g'</span>,<span class="string">'LineWidth'</span>,2);hold <span class="string">on</span>
+scatter(log10(h),theta_v,<span class="string">'filled'</span>,<span class="string">'vk'</span>); hold <span class="string">off</span>
+
+<span class="comment">% Label plot</span>
+xlabel(<span class="string">'Log |\psi_m| (kPa)'</span>,<span class="string">'FontSize'</span>,13);
+ylabel(<span class="string">'\theta_v (cm^3 cm^{-3})'</span>,<span class="string">'FontSize'</span>,13);
+legend(<span class="string">'Brooks and Corey'</span>,<span class="string">'Campbell'</span>, <span class="string">'van Genuchten'</span>, <span class="string">'Measured values'</span>)
+legend <span class="string">boxoff</span>
+set(gca,<span class="string">'FontSize'</span>,13)
+</pre><p>Copyright 2013 <i>This function is part of the Soil Physics Toolbox  created by the Soil Physics team at the Plant and Soil Sciences Department, Oklahoma State University.</i></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% SWRCFIT 
+% Fits soil water retention models to measured data. 
+%
+%% Syntax
+%
+% |[BCx, Cx, vGx, RMSE] = SWRCfit (theta_s, theta_v, h)|
+%
+% |[BCx, Cx, vGx, RMSE] = SWRCfit (theta_s, theta_v, h)| fits pairwise volumetric
+% water content (|theta_v|), and soil matric potential (|h|) 
+% using three well known soil water retention models. Information about
+% saturated volumetric water content (|theta_s|) is also required. |BCx|,
+% |Cx|, and |vGx| are arrays containing the values of the fitted parameters
+% for each model. |RMSE| reports the root mean squared error of each model.
+%
+%% Inputs
+%       theta_s = volumetric water content at saturation (or total porosity) [cm3]
+%
+%       theta_v = measured volumetric water content [cm3/cm3]
+%
+%       h = matric potential at each theta_v [kPa]
+%
+%% Output
+%
+% BCx = Brooks and Corey fitting parameters (Model by Brooks and Corey, 1964)
+%
+%       BCx(1) = bubbling pressure
+%       BCx(2) = lambda (pore size distribution)
+%       BCx(3) = theta_r (residual water content)
+%
+% Cx = Campbell fitting parameters (Model by Campbell, 1974)
+%
+%       Cx(1) = bubbling pressure
+%       Cx(2) = constant related to the pore size distribution.
+%
+% vGx = van Genuchten fitting parameters (Model by van Genuchten, 1980)
+%
+%       vGx(1) = alpha (inverse of bubbling pressure) [1/cm or 1/kPa]
+%       vGx(2) = theta_r [cm3/cm3]
+%       vGx(3) = n (related to pore size distribution)
+%
+%% Examples
+% The following example fits all three models for measured data in a silt 
+% loam soil (data measured by Or et al., 1991).
+%%
+theta_v=[0.513 0.513 0.321 0.225 0.138 0.120 0.098 0.07 0.064 0.060]; % volumetric water content (cm3/cm3).
+h=[1 2 5 10 33 50 100 500 1000 1500]; % soil matric potential (kPa).
+[BCx, Cx, vGx, RMSE] = SWRCfit (0.513, theta_v, h); % Call function. Saturated vol. water content is 0.513 cm3/cm3.
+%%
+%    BCx =
+%
+%         2.0408
+%         0.6094
+%         0.0535
+%
+%
+%    Cx =
+%
+%         1.8366
+%         2.3385
+%
+%    vGx =
+%
+%         0.2448
+%         0.0736
+%         2.0658
+%
+%    RMSE = 
+%
+%         'SWRC Model'          'RMSE'      'Unit'     
+%         'Brooks and Corey'    [0.0013]    'cm3/cm3'  
+%         'Campbell'            [0.0190]    'cm^3 cm^3'
+%         'van Genuchten'       [0.0195]    'cm3/cm3'
+%
+% The resulting plot is:
+%
+% <<SWRCfit_plot1.png>>
+%
+%% See also
+% <SWRCfun.html |SWRCfun|>  |  <rosetta.html |rosetta|>  |  <soilwaterptf.html |soilwaterptf|>
+%
+%% References
+% Brooks R.H. and A.T. Corey. 1964. Hydraulic properties of porous media.
+% Hydrology papers No 3. Colorado State University. Fort Collins, Colorado.
+%
+% Campbell, G.S. A simple method for determining unsaturated conductivity
+% from moisture retention data. Soil Sci.,117,311-314.
+%
+% van Genuchten, M.T.1980. A closed-form equation for predicting the
+% hydraulic conductivity of unsaturated flow. Soil Sci. Soc. Am. J. 44,
+% 892-898.
+%
+% Or,D., D.P. Groeneveld, K. Loague, and Y. Rubin. 1991. Evaluation of
+% single and multi-parameter methods for estimating soil-water
+% characteristic curves. Geotechnical Engineering Report No. UCB/GT/91-07,
+% University of California, Berkeley, 54 pp.
+%
+% Tuller and Or, 2004. M. Tuller, D. Or, in: D. Hillel (Ed.), Water retention
+% and characteristic curve. Encyclopedia of soils in the environment, 
+% Elsevier Ltd., Oxford, United Kingdom (2004), pp. 278–289.
+%
+%% Updates
+%
+% Created by AP on 11-Dec-2013
+
+%% Soil water retention models 
+% * Brooks and Corey model
+%
+% $$ \frac{\theta-\theta_r}{\theta_s-\theta_r} = \bigg(\frac{\psi_b}{\psi_m}\bigg)^\lambda$$
+BCmodel = @(BCx,h) min((BCx(1)./h).^BCx(2).*(theta_s-BCx(3))+BCx(3),theta_s); % Brooks and Corey model
+
+%%
+% * Campbell model
+%
+% $$ \frac{\theta}{\theta_s} = \bigg(\frac{\psi_b}{\psi_m}\bigg)^\frac{1}{b}$$ 
+Cmodel = @(Cx,h) min((Cx(1)./h).^(1/Cx(2)).* theta_s, theta_s); % Campbell model
+
+%%
+% * van Genuchten model
+%
+% $$ \frac{\theta_v-\theta_r}{\theta_s-\theta_r} = \bigg[\frac{1}{1+(\alpha \psi_m)^n)}\bigg]^m $$
+vGmodel = @(vGx,h) (1./(1+(vGx(1)*h).^vGx(3) )).^(1-1/vGx(3)) *(theta_s-vGx(2))+vGx(2); % van Genuchten model
+
+%%
+% 
+
+% Define tentative initial parameter values
+BCx0=[2; 0.5; 0.07];
+Cx0=[2; 2];
+vGx0=[0.03;0.08; 1.5];
+
+% Fit model to measured data using lsqcurvefit function
+[BCx] = lsqcurvefit(BCmodel,BCx0,h,theta_v); % Brooks and Corey anonymous function
+[Cx] = lsqcurvefit(Cmodel,Cx0,h,theta_v); % % Campbell anonymous function
+[vGx] = lsqcurvefit(vGmodel,vGx0,h,theta_v); % % van Genuchten anonymous function
+
+% Calculate root mean squared error (RMSE)
+RMSE = {'SWRC Model', 'RMSE', 'Unit';...    % Build cell array
+        'Brooks and Corey',sqrt(mean((BCmodel(BCx,h)-theta_v).^2)),'cm3/cm3';...
+        'Campbell',sqrt(mean((Cmodel(Cx,h)-theta_v).^2)),'cm^3 cm^3';...
+        'van Genuchten', sqrt(mean((vGmodel(vGx,h)-theta_v).^2)),'cm3/cm3'};
+
+% Plot Data
+plot(log10(1:1500),BCmodel(BCx,1:1500),'-r','LineWidth',2);hold on
+plot(log10(1:1500),Cmodel(Cx,1:1500),'-k','LineWidth',2);hold on
+plot(log10(1:1500),vGmodel(vGx,1:1500),'-g','LineWidth',2);hold on
+scatter(log10(h),theta_v,'filled','vk'); hold off
+
+% Label plot
+xlabel('Log |\psi_m| (kPa)','FontSize',13);
+ylabel('\theta_v (cm^3 cm^{-3})','FontSize',13);
+legend('Brooks and Corey','Campbell', 'van Genuchten', 'Measured values')
+legend boxoff
+set(gca,'FontSize',13)
+
+%%
+% Copyright 2013 _This function is part of the Soil Physics Toolbox  created by the Soil 
+% Physics team at the Plant and Soil Sciences Department, Oklahoma State University._
+
+##### SOURCE END #####
+--></body></html>

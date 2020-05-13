@@ -1,0 +1,187 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ROSETTA</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-11"><meta name="DC.source" content="rosetta.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ROSETTA</h1><!--introduction--><p>Average soil hydraulic parameters for USDA soil textural classes.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Inputs</a></li><li><a href="#3">Soil textural classes</a></li><li><a href="#4">Outputs</a></li><li><a href="#5">Examples</a></li><li><a href="#6">References</a></li><li><a href="#7">Updates</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[AllParameters, theta_r, theta_s, alpha, n, m, Ksat] = rosetta(texturalClass)</tt></p><p><tt>[AllParameters, theta_r, theta_s, alpha, n, m, Ksat] = rosetta (texturalClass)</tt> retrieves residual volumetric water content (<tt>theta_r</tt>), saturation (<tt>theta_s</tt>), saturated hydraulic conductivity (<tt>Ksat</tt>), and three fitting parameters (<tt>alpha</tt>, <tt>n</tt>, and <tt>m</tt>). AllParameters is a cell array containing all the previous variables and parameters with headers (including units).</p><h2>Inputs<a name="2"></a></h2><pre>     texturalClass = String containing the name of one soil textural class defined by the USDA.</pre><h2>Soil textural classes<a name="3"></a></h2><p>To use this chart use at least two out of the three soil texture components. Notice that numbers in the edges are tilted in the same way you should read the lines.</p><p><img vspace="5" hspace="5" src="rosetta_texture_triangle.jpg" alt=""> </p><p>Graph obtained from USDA Natural ResourcesConservation Service (NRCS) <a href="http://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/edu/?cid=nrcs142p2_054311">http://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/edu/?cid=nrcs142p2_054311</a></p><h2>Outputs<a name="4"></a></h2><pre>     theta_r = residual volumetric water content (cm3/cm3)
+     theta_s = saturate volumetric water content (cm3/cm3)
+     alpha = fitting parameter. It is the inverse of the air entry suction (1/cm)
+     n = fitting parameter related to pore size distribution (unitless) (n&gt;1)
+     m = fitting parameter (unitless) ($m = 1-1/n$)
+     Ksat = saturated hydraulic conductivity (cm/h)</pre><h2>Examples<a name="5"></a></h2><pre>     [AllParameters] = rosetta (texturalClass)</pre><p><tt>AllParameters =</tt></p><pre>  'Textural Class'    'theta_r (cm^3/cm^3)'    'theta_s (cm^3/cm^3)'    'alpha (1/cm)'    'n'         'Ksat (cm/hr)'
+  'silt loam'         [             0.0650]    [             0.4390]    [      0.0051]    [1.6600]    [      0.7600]</pre><h2>References<a name="6"></a></h2><p>Schaap, M.G., F.J. Leij, M.Th. van Genuchten. 2001. Rosetta: a computer program for estimating soil hydraulic parameters with hierarchical pedotransfer functions. Journal of Hydrology 251(3&#8211;4)163&#8211;176.</p><h2>Updates<a name="7"></a></h2><p>v.1 Created by AP Monday, ?September ?23, ?2013.</p><p>Last revised on 10-Dec-2013 18:06:15</p><p><i>This function is part of the Soil Physics Toolbox  created by the Soil Physics team at the Plant and Soil Sciences Department, Oklahoma State University.</i></p><p>Hard coded Rosetta table with average soil properties and code.</p><pre class="codeinput">headers = {<span class="string">'Textural Class'</span> <span class="string">'theta_r (cm^3/cm^3)'</span> <span class="string">'theta_s (cm^3/cm^3)'</span> <span class="string">'alpha (1/cm)'</span> <span class="string">'n'</span> <span class="string">'Ksat (cm/hr)'</span>};
+ParameterList = {<span class="string">'clay'</span>,0.098,0.459,0.015,1.25,0.615;<span class="keyword">...</span>
+              <span class="string">'clay loam'</span>,0.079,0.442,0.0158,1.42,0.341;<span class="keyword">...</span>
+              <span class="string">'loam'</span>,0.061,0.399,0.0111,1.47,0.502
+              <span class="string">'loamy sand'</span>, 0.049,0.390, 0.0348, 1.75,4.383;<span class="keyword">...</span>
+              <span class="string">'sand'</span>,0.053,0.375,0.0352,3.18,26.779;<span class="keyword">...</span>
+              <span class="string">'sandy clay'</span>, 0.117,0.385,0.0334,1.21,0.473;<span class="keyword">...</span>
+              <span class="string">'sandy clay loam'</span>,0.063,0.384,0.0211,1.33,0.549;<span class="keyword">...</span>
+              <span class="string">'sandy loam'</span>, 0.039,0.387,0.0267,1.45,1.595;<span class="keyword">...</span>
+              <span class="string">'silt'</span>,0.05,0.489,0.0066,1.68,1.823;<span class="keyword">...</span>
+              <span class="string">'silty clay'</span>,0.111,0.481,0.0162,1.32,0.401;<span class="keyword">...</span>
+              <span class="string">'silty clay loam'</span>,0.090,0.482,0.0084,1.52,0.463;<span class="keyword">...</span>
+              <span class="string">'silt loam'</span>,0.065,0.439,0.0051,1.66,0.760};
+
+txtIdx = strcmpi(ParameterList(:,1),texturalClass); <span class="comment">% Find match for user's input.</span>
+
+<span class="comment">% Output variables</span>
+Ksat = cell2mat(ParameterList(txtIdx,6)); <span class="comment">% Saturated hydraulic conductivity [cm/h]</span>
+theta_r = cell2mat(ParameterList(txtIdx,2)); <span class="comment">% Residual volumetric water content [cm3/cm3]</span>
+theta_s = cell2mat(ParameterList(txtIdx,3)); <span class="comment">% Saturated volumetric water content [cm3/cm3]</span>
+alpha = cell2mat(ParameterList(txtIdx,4)); <span class="comment">% Inverse of bubbling pressure [1/cm]</span>
+n =cell2mat(ParameterList(txtIdx,5)); <span class="comment">% Fitting parameter</span>
+m= 1-1/n; <span class="comment">% Parameter as a function of n</span>
+AllParameters = [headers; ParameterList(txtIdx,1:6)]; <span class="comment">% All parameters in a matrix.</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ROSETTA
+% Average soil hydraulic parameters for USDA soil textural classes. 
+%
+%% Syntax
+%
+% |[AllParameters, theta_r, theta_s, alpha, n, m, Ksat] = rosetta(texturalClass)|
+%
+% |[AllParameters, theta_r, theta_s, alpha, n, m, Ksat] = rosetta
+% (texturalClass)| retrieves residual volumetric water content (|theta_r|),
+% saturation (|theta_s|), saturated hydraulic conductivity (|Ksat|), and three
+% fitting parameters (|alpha|, |n|, and |m|). AllParameters is a cell array
+% containing all the previous variables and parameters with headers
+% (including units).
+%
+%% Inputs
+%       texturalClass = String containing the name of one soil textural class defined by the USDA.
+%
+%% Soil textural classes
+%
+% To use this chart use at least two out of the three soil texture components.
+% Notice that numbers in the edges are tilted in the same way
+% you should read the lines.
+%
+% <<rosetta_texture_triangle.jpg>>
+%
+% Graph obtained from USDA Natural ResourcesConservation Service (NRCS)
+% <http://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/edu/?cid=nrcs142p2_054311>
+%
+%% Outputs
+%       theta_r = residual volumetric water content (cm3/cm3)
+%       theta_s = saturate volumetric water content (cm3/cm3)
+%       alpha = fitting parameter. It is the inverse of the air entry suction (1/cm)
+%       n = fitting parameter related to pore size distribution (unitless) (n>1)
+%       m = fitting parameter (unitless) ($m = 1-1/n$)
+%       Ksat = saturated hydraulic conductivity (cm/h)
+%
+%% Examples
+%       [AllParameters] = rosetta (texturalClass)
+%
+% |AllParameters =| 
+%
+%    'Textural Class'    'theta_r (cm^3/cm^3)'    'theta_s (cm^3/cm^3)'    'alpha (1/cm)'    'n'         'Ksat (cm/hr)'
+%    'silt loam'         [             0.0650]    [             0.4390]    [      0.0051]    [1.6600]    [      0.7600]
+%
+%% References
+% Schaap, M.G., F.J. Leij, M.Th. van Genuchten. 2001. Rosetta: a computer 
+% program for estimating soil hydraulic parameters with hierarchical
+% pedotransfer functions. Journal of Hydrology 251(3–4)163–176.
+%
+%% Updates
+%
+% v.1 Created by AP Monday, ?September ?23, ?2013.
+%
+% Last revised on 10-Dec-2013 18:06:15
+%
+%%
+% _This function is part of the Soil Physics Toolbox  created by the Soil 
+% Physics team at the Plant and Soil Sciences Department, Oklahoma State University._
+%
+
+%%
+ % Hard coded Rosetta table with average soil properties and code.
+headers = {'Textural Class' 'theta_r (cm^3/cm^3)' 'theta_s (cm^3/cm^3)' 'alpha (1/cm)' 'n' 'Ksat (cm/hr)'};
+ParameterList = {'clay',0.098,0.459,0.015,1.25,0.615;...
+              'clay loam',0.079,0.442,0.0158,1.42,0.341;...
+              'loam',0.061,0.399,0.0111,1.47,0.502
+              'loamy sand', 0.049,0.390, 0.0348, 1.75,4.383;...
+              'sand',0.053,0.375,0.0352,3.18,26.779;...
+              'sandy clay', 0.117,0.385,0.0334,1.21,0.473;...
+              'sandy clay loam',0.063,0.384,0.0211,1.33,0.549;...
+              'sandy loam', 0.039,0.387,0.0267,1.45,1.595;...
+              'silt',0.05,0.489,0.0066,1.68,1.823;...
+              'silty clay',0.111,0.481,0.0162,1.32,0.401;...
+              'silty clay loam',0.090,0.482,0.0084,1.52,0.463;...
+              'silt loam',0.065,0.439,0.0051,1.66,0.760};
+          
+txtIdx = strcmpi(ParameterList(:,1),texturalClass); % Find match for user's input.
+
+% Output variables
+Ksat = cell2mat(ParameterList(txtIdx,6)); % Saturated hydraulic conductivity [cm/h]
+theta_r = cell2mat(ParameterList(txtIdx,2)); % Residual volumetric water content [cm3/cm3]
+theta_s = cell2mat(ParameterList(txtIdx,3)); % Saturated volumetric water content [cm3/cm3]
+alpha = cell2mat(ParameterList(txtIdx,4)); % Inverse of bubbling pressure [1/cm]
+n =cell2mat(ParameterList(txtIdx,5)); % Fitting parameter
+m= 1-1/n; % Parameter as a function of n
+AllParameters = [headers; ParameterList(txtIdx,1:6)]; % All parameters in a matrix.
+##### SOURCE END #####
+--></body></html>

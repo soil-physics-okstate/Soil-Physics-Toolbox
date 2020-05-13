@@ -1,0 +1,408 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>FAO56_ETO</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-12"><meta name="DC.source" content="FAO56ETo.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>FAO56_ETO</h1><!--introduction--><p>Calculates daily reference evapotranspiration (ETo).</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Inputs</a></li><li><a href="#3">Outputs</a></li><li><a href="#4">References</a></li><li><a href="#5">Updates</a></li><li><a href="#6">General equation for ETo</a></li><li><a href="#7">Psychrometric constant</a></li><li><a href="#8">Wind speed</a></li><li><a href="#9">Air temperature</a></li><li><a href="#10">Air humidity</a></li><li><a href="#11">Vapor pressure</a></li><li><a href="#12">Solar radiation</a></li><li><a href="#16">Soil heat flux density</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[date,ETo] = FAO56ETo(weather, windheight, latitude , elevation)</tt></p><p><tt>[date,ETo] = FAO56_ETO (weather,windheight,latitude,elevation)</tt> calculates ETo using the 9 by n weather matrix (detailed below), height at which wind speed was measured, latitude in decimal degrees, and the elevation of the location. ETo can then be multiplied by a crop coefficient (Kc) for various crops to determine daily crop evapotranspiration (ETc).</p><h2>Inputs<a name="2"></a></h2><pre>     weather    = [date doy Tmax Tmin P RHmax RHmin Rs wind (vpd)].
+          date  = date in Matlab date number format.
+          doy   = day of the year.
+          Tmax  = maximum daily air temp (&deg;C).
+          Tmin  = minimum daily air temp (&deg;C).
+          P     = daily precip (mm).
+          RHmax = daily maximum relative humidity (%).
+          RHmin = daily minimum relative humidity (%).
+          Rs    = incoming solar radiation (MJ/m2/day).
+          wind  = wind speed (m/s).
+          vpd   = daily average vapor pressure deficit (kPa) **if available**
+     windheight = height at which wind measurements were taken (m).
+     latitude   = latitude of experimental site (decimal degrees).
+     elevation  = elevation above sea level of experimental site (m).</pre><h2>Outputs<a name="3"></a></h2><pre>     date = Matlab date format.
+     ETo  = Resulting reference evapotranspiration column vector (mm/day)</pre><h2>References<a name="4"></a></h2><p>Allen, R.G., L.S. Pereira, D. Raes, and M. Smith. 1998. Crop evapotranspiration: Guidelines for computing crop water requirements, FAO Irrigation and Drainage Paper No. 56.</p><p><a href="http://www.fao.org/docrep/x0490e/x0490e00.htm">Food and Agriculture Organization (FAO)</a></p><p><a href="http://www.kimberly.uidaho.edu/water/fao56/">Kimberly R&amp;E Center</a></p><h2>Updates<a name="5"></a></h2><p>v.1 Created by ESK Jan. 9, 2008.</p><p>v.2 TEO Sept. 18, 2008 added option to input vpd if available.</p><p>v.3 TEO July 11, 2013 adding procedures to estimate missing weather</p><p>v.3 AP August 5, 2013 fixed indexing problem in actual vapor pressure (ea), and solar radiation (Rs).</p><p>Last revised on: 04-Dec-2013 12:50:50.</p><h2>General equation for ETo<a name="6"></a></h2><p>This equation corresponds to Eq.6, FAO-56.</p><p><img src="FAO56ETo_eq77797.png" alt="$$ETo = \frac{0.408\Delta(Rn-G)+\gamma\frac{900}{T+273}u2(es-ea)}{\Delta+\gamma(1+0.34u2)}$$"></p><p>ETo   = reference evapotranspiration (mm/day)</p><p>Rn    = net radiation at the crop surface (MJ/m2/day).</p><p>G     = soil heat flux density (MJ/m2/day)</p><p>T     = mean daily air temperature at 2 m height</p><p>u2    = wind speed at 2 m height (m/s)</p><p>es    = saturation vapor pressure (kPa)</p><p>ea    = actual vapor pressure (kPa)</p><p>es-ea = saturation vapor pressure deficit (kPa)</p><p><img src="FAO56ETo_eq07716.png" alt="$\Delta$"> = slope vapor pressure curve (kPa/&deg;C)</p><p><img src="FAO56ETo_eq41477.png" alt="$\gamma$"> = psychrometric constant (kPa/&deg;C)</p><h2>Psychrometric constant<a name="7"></a></h2><p>This equation corresponds to Eq. 8, FAO-56.</p><p><img src="FAO56ETo_eq87165.png" alt="$$\gamma = \frac{Cp P}{\epsilon \lambda}$$"></p><p><img src="FAO56ETo_eq41477.png" alt="$\gamma$"> = psychrometric constant (kPa/&deg;C)</p><p><img src="FAO56ETo_eq23351.png" alt="$\lambda$"> = latent heat of vaporization, 2.45 (MJ/kg)</p><p>Cp = specific heat at constant pressure (MJ/kg/&deg;C)</p><p><img src="FAO56ETo_eq97780.png" alt="$\epsilon$"> = ratio of molecular weight of water vapour/dry air = 0.622</p><p>P = atmospheric pressure (kPa)</p><p>z = elevation above sea level (m)</p><p>Date Output</p><pre class="codeinput">date = datevec(weather(:,1)); <span class="comment">% Convert Date to Day Month Year Format for output</span>
+date(:,4:6)=[];
+
+z = elevation;
+P = 101.3*((293-.0065*z)/293)^5.26;
+Cp = 0.001013; <span class="comment">% Approx. 0.001013 for average atmospheric conditions</span>
+epsilon =  0.622;
+lamda = 2.45;
+gamma = (Cp*P)/(epsilon*lamda); <span class="comment">% Approx. 0.000665</span>
+</pre><h2>Wind speed<a name="8"></a></h2><p>Wind speed must be corrected to 2 meter above the soil surface</p><p><img src="FAO56ETo_eq64663.png" alt="$$u2 = uz\frac{4.87}{\ln(67.8z-5.42)}$$"></p><p>u2 = wind speed at 2 m above ground surface (m/s)</p><p>uz = measured wind speed at z m above ground surface (m/s)</p><p>zm = height of measurement above ground surface (m)</p><pre class="codeinput">zm = windheight;
+u2 = weather(:,9);
+u2 = u2*(4.87/log((67.8*zm)-5.42));  <span class="comment">% Eq. 47, FAO-56</span>
+u2(isnan(u2)) = 2; <span class="comment">%replace missing windspeed data with 2 m/s, p. 63 Allen et al. (1998)</span>
+</pre><h2>Air temperature<a name="9"></a></h2><pre class="codeinput">Tmax = weather(:,3);
+Tmin = weather(:,4);
+Tmean = (Tmax + Tmin)/2;   <span class="comment">% Eq. 9, FAO-56</span>
+T = Tmean;
+</pre><h2>Air humidity<a name="10"></a></h2><p>Mean saturation vapor pressure as defined in Eq. 12, FAO-56</p><p><img src="FAO56ETo_eq09708.png" alt="$$es = \frac{eTmax+eTmin}{2}$$"></p><p>es = mean saturation vapor pressure (kPa)</p><p>eTmax = saturation vapor pressure at temp Tmax (kPa)</p><p>eTmin = saturation vapor pressure at temp Tmin (kPa)</p><pre class="codeinput">eTmax = 0.6108*exp(17.27*Tmax./(Tmax+237.3)); <span class="comment">% Eq. 11, FAO-56</span>
+eTmin = 0.6108*exp(17.27*Tmin./(Tmin+237.3));
+es = (eTmax + eTmin) / 2;
+</pre><h2>Vapor pressure<a name="11"></a></h2><p>Slope of saturation of vapor pressure curve (<img src="FAO56ETo_eq07716.png" alt="$\Delta$">) as defined in Eq. 13, FAO-56</p><p><img src="FAO56ETo_eq21925.png" alt="$$\Delta = \frac{4098\bigg[0.6108\exp\bigg(\frac{17.27 Tmean}{Tmean+237.3}\bigg)\bigg]}{(Tmean+237.3)^2}$$"></p><p><img src="FAO56ETo_eq07716.png" alt="$\Delta$"> = slope of saturation vapor pressure curve at air temp T (kPa/&deg;C)</p><p>Tmean = average daily air temperture</p><p>Actual vapor pressure derived from relative humidity data as defined in Eq. 17, FAO-56</p><p><img src="FAO56ETo_eq36645.png" alt="$$ea = \frac{eTmin\frac{RHmax}{100}+eTmax\frac{RHmin}{100}}{2}$$"></p><p>ea = actual vapor pressure (kPa)</p><p>eTmax = saturation vapor pressure at temp Tmax (kPa)</p><p>eTmin = saturation vapor pressure at temp Tmin (kPa)</p><p>RHmax = maximum relative humidity (%)</p><p>RHmin = minimum relative humidity (%)</p><pre class="codeinput">delta = 4098*(0.6108*exp(17.27*Tmean./(Tmean+237.3)))./(Tmean+237.3).^2;
+
+RHmax = weather(:,6);
+RHmin = weather(:,7);
+ea = (eTmin.*(RHmax./100) + eTmax.*(RHmin./100)) / 2;
+<span class="keyword">if</span> size(weather,2)==10
+    ea = es-weather(:,10);
+<span class="keyword">end</span>
+
+<span class="comment">% Replace missing vapor pressure data with estimate based on minimum</span>
+<span class="comment">% temperature Eq. 48, FAO-56</span>
+ea(isnan(ea)) = 0.611*exp(17.27*Tmin(isnan(ea))./(Tmin(isnan(ea))+237.3));
+</pre><h2>Solar radiation<a name="12"></a></h2><div><ul><li>Extraterrestrial radiation for daily periods as defined in Eq. 21, FAO-56</li></ul></div><p><img src="FAO56ETo_eq89705.png" alt="$$Ra = \frac{24(60)}{\pi} \hspace{2mm}Gsc \hspace{2mm} dr[\omega\sin(\phi)\sin(\delta)+\cos(\phi)\cos(\delta)\sin(\omega)]$$"></p><p>Ra = extraterrestrial radiation (MJ / m2 /day)</p><p>Gsc = solar constant (MJ/m2/min)</p><p>dr = 1 + 0.033$\cos$(2$\pi$J/365)  Inverse relative distance Earth-Sun</p><p>J = number of the day of the year</p><p><img src="FAO56ETo_eq26509.png" alt="$\phi$"> = <img src="FAO56ETo_eq11731.png" alt="$\pi$">/180decimal degrees  (latitude in radians)</p><p><img src="FAO56ETo_eq02791.png" alt="$\delta = 0.409\sin((2\pi J/365)-1.39)\hspace{5mm}$"> Solar decimation (rad)</p><p><img src="FAO56ETo_eq11334.png" alt="$\omega = \pi/2-(\arccos(-\tan(\phi)\tan(\delta)) \hspace{5mm}$"> sunset hour angle (radians)</p><pre class="codeinput">J = weather(:,2);
+dr= 1 + 0.033 * cos(2*pi*J/365);  <span class="comment">% Eq. 23, FAO-56</span>
+phi = pi/180 * latitude; <span class="comment">% Eq. 22, FAO-56</span>
+d = 0.409*sin((2*pi * J/365) - 1.39);
+omega = (acos(-tan(phi)*tan(d)));
+Gsc = 0.0820; <span class="comment">% Approx. 0.0820</span>
+Ra = 24*(60)/pi * Gsc.*dr .* (omega*sin(phi).*sin(d) + cos(phi).*cos(d).*sin(omega));
+</pre><div><ul><li>Clear Sky Radiation: Rso (MJ/m2/day)</li></ul></div><pre class="codeinput">Rso =  (0.75 + (2*10^-5)*z).*Ra ; <span class="comment">% Eq. 37, FAO-56</span>
+</pre><div><ul><li>Measured solar Radiation: Rs (MJ/m2/day)</li></ul></div><pre class="codeinput">Rs = weather(:,8);
+RsIdx = isnan(Rs);
+Rs(RsIdx) = min(0.16*Ra(RsIdx).*(Tmax(RsIdx)-Tmin(RsIdx)).^0.5,Rso(RsIdx)); <span class="comment">%replace missing Rs data using Eq. 50, FAO-56</span>
+</pre><div><ul><li>Net Radiation: Rn (MJ/m2/day)</li></ul></div><p>Rn = Rns - Rnl</p><p>Rns = (1-alpha)Rs</p><p>alpha = albedo or canopy reflection coefficient</p><p>Rnl = (sigma((TmaxK)^4 + ((TminK)^4)/2)*(0.34 - (squareroot(ea))(1.35(Rs/Rso) - 0.35)</p><p>Rnl = net outgoing longwave radiation (MJ/m2/day)</p><p><img src="FAO56ETo_eq24873.png" alt="$\sigma$"> = Stefan-Boltzmann constant (4.903*10^-9 MJ/K4/m2/day)</p><p>TmaxK = max absolute temperature during the 24hr period (K = C+273.16)</p><p>TminK = min absolute temperature during the 24hr period</p><p>ea = actual vapor pressure (kPa)</p><p>Rs/Rso = relative shortwave radiation (limited to &lt;= 1.0)</p><pre class="codeinput">alpha = 0.23; <span class="comment">% 0.23 for hypothetical grass reference crop</span>
+Rns = (1-alpha)*Rs; <span class="comment">% Eq. 38, FAO-56</span>
+sigma  = 4.903*10^-9;
+TmaxK = Tmax + 273.16;
+TminK = Tmin + 273.16;
+Rnl =  sigma*(TmaxK.^4 + TminK.^4)/2.*(0.34 - 0.14*sqrt(ea)).*(1.35*(Rs./Rso) - 0.35); <span class="comment">% Eq. 39, FAO-56</span>
+Rn = Rns - Rnl; <span class="comment">% Eq. 40, FAO-56</span>
+</pre><h2>Soil heat flux density<a name="16"></a></h2><p>G = 0 for daily time steps  (MJ/m2/day).</p><pre class="codeinput">G = 0; <span class="comment">% Eq. 42, FAO-56</span>
+</pre><p><b>ETo calculation</b></p><pre class="codeinput"><span class="keyword">if</span> size(weather,2) == 10
+    vpd = weather(:,10);
+    ETo = (0.408*delta.*(Rn-G) + gamma*(900./(T+273)).*u2.*vpd) ./ (delta+gamma*(1+0.34*u2));
+<span class="keyword">else</span>
+    ETo = (0.408*delta.*(Rn-G) + gamma*(900./(T+273)).*u2.*(es-ea)) ./ (delta+gamma*(1+0.34*u2));
+<span class="keyword">end</span>
+</pre><p>Copyright 2013 <i>This function is part of the Soil Physics Toolbox  created by the Soil Physics team at the Plant and Soil Sciences Department, Oklahoma State University.</i></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% FAO56_ETO
+% Calculates daily reference evapotranspiration (ETo).
+%
+%% Syntax
+%
+% |[date,ETo] = FAO56ETo(weather, windheight, latitude , elevation)|
+%
+% |[date,ETo] = FAO56_ETO (weather,windheight,latitude,elevation)| calculates
+% ETo using the 9 by n weather matrix (detailed below), height at which 
+% wind speed was measured, latitude in decimal degrees, and the elevation 
+% of the location. ETo can then be multiplied by a crop coefficient (Kc) 
+% for various crops to determine daily crop evapotranspiration (ETc).
+%
+%% Inputs
+%       weather    = [date doy Tmax Tmin P RHmax RHmin Rs wind (vpd)].
+%            date  = date in Matlab date number format.
+%            doy   = day of the year.
+%            Tmax  = maximum daily air temp (°C).
+%            Tmin  = minimum daily air temp (°C).
+%            P     = daily precip (mm).
+%            RHmax = daily maximum relative humidity (%).
+%            RHmin = daily minimum relative humidity (%).
+%            Rs    = incoming solar radiation (MJ/m2/day).
+%            wind  = wind speed (m/s).
+%            vpd   = daily average vapor pressure deficit (kPa) **if available**
+%       windheight = height at which wind measurements were taken (m).
+%       latitude   = latitude of experimental site (decimal degrees).
+%       elevation  = elevation above sea level of experimental site (m).
+%
+%% Outputs
+%       date = Matlab date format.
+%       ETo  = Resulting reference evapotranspiration column vector (mm/day)
+%
+%% References
+% Allen, R.G., L.S. Pereira, D. Raes, and M. Smith. 1998. Crop evapotranspiration:
+% Guidelines for computing crop water requirements, FAO Irrigation and Drainage Paper No. 56.
+%
+% <http://www.fao.org/docrep/x0490e/x0490e00.htm Food and Agriculture Organization (FAO)>
+%
+% <http://www.kimberly.uidaho.edu/water/fao56/ Kimberly R&E Center>
+%
+%% Updates
+%
+% v.1 Created by ESK Jan. 9, 2008.
+%
+% v.2 TEO Sept. 18, 2008 added option to input vpd if available.
+%
+% v.3 TEO July 11, 2013 adding procedures to estimate missing weather
+%
+% v.3 AP August 5, 2013 fixed indexing problem in actual vapor pressure (ea), and solar radiation (Rs).
+%
+% Last revised on: 04-Dec-2013 12:50:50.
+%  
+%% General equation for ETo
+% This equation corresponds to Eq.6, FAO-56.
+%
+% $$ETo = \frac{0.408\Delta(Rn-G)+\gamma\frac{900}{T+273}u2(es-ea)}{\Delta+\gamma(1+0.34u2)}$$  
+%
+% ETo   = reference evapotranspiration (mm/day)
+%
+% Rn    = net radiation at the crop surface (MJ/m2/day).
+%
+% G     = soil heat flux density (MJ/m2/day)
+%
+% T     = mean daily air temperature at 2 m height
+%
+% u2    = wind speed at 2 m height (m/s)
+%
+% es    = saturation vapor pressure (kPa)
+%
+% ea    = actual vapor pressure (kPa)
+%
+% es-ea = saturation vapor pressure deficit (kPa)
+%
+% $\Delta$ = slope vapor pressure curve (kPa/°C)
+%
+% $\gamma$ = psychrometric constant (kPa/°C)
+%
+%% Psychrometric constant
+% This equation corresponds to Eq. 8, FAO-56. 
+%
+% $$\gamma = \frac{Cp P}{\epsilon \lambda}$$
+%
+% $\gamma$ = psychrometric constant (kPa/°C)
+%
+% $\lambda$ = latent heat of vaporization, 2.45 (MJ/kg)
+%
+% Cp = specific heat at constant pressure (MJ/kg/°C)
+%
+% $\epsilon$ = ratio of molecular weight of water vapour/dry air = 0.622
+%
+% P = atmospheric pressure (kPa)
+%
+% z = elevation above sea level (m)
+%
+%
+% Date Output
+date = datevec(weather(:,1)); % Convert Date to Day Month Year Format for output
+date(:,4:6)=[];
+
+z = elevation;
+P = 101.3*((293-.0065*z)/293)^5.26;
+Cp = 0.001013; % Approx. 0.001013 for average atmospheric conditions
+epsilon =  0.622;
+lamda = 2.45;
+gamma = (Cp*P)/(epsilon*lamda); % Approx. 0.000665 
+
+
+%% Wind speed
+% Wind speed must be corrected to 2 meter above the soil surface
+%
+% $$u2 = uz\frac{4.87}{\ln(67.8z-5.42)}$$
+%
+% u2 = wind speed at 2 m above ground surface (m/s)
+%
+% uz = measured wind speed at z m above ground surface (m/s)
+%
+% zm = height of measurement above ground surface (m)
+
+zm = windheight;
+u2 = weather(:,9);
+u2 = u2*(4.87/log((67.8*zm)-5.42));  % Eq. 47, FAO-56
+u2(isnan(u2)) = 2; %replace missing windspeed data with 2 m/s, p. 63 Allen et al. (1998) 
+
+
+%% Air temperature
+Tmax = weather(:,3);
+Tmin = weather(:,4);
+Tmean = (Tmax + Tmin)/2;   % Eq. 9, FAO-56
+T = Tmean;
+
+%% Air humidity
+% Mean saturation vapor pressure as defined in Eq. 12, FAO-56
+%
+% $$es = \frac{eTmax+eTmin}{2}$$                                              
+%
+% es = mean saturation vapor pressure (kPa)
+%
+% eTmax = saturation vapor pressure at temp Tmax (kPa)
+%
+% eTmin = saturation vapor pressure at temp Tmin (kPa)
+eTmax = 0.6108*exp(17.27*Tmax./(Tmax+237.3)); % Eq. 11, FAO-56
+eTmin = 0.6108*exp(17.27*Tmin./(Tmin+237.3));
+es = (eTmax + eTmin) / 2;
+
+%% Vapor pressure
+% Slope of saturation of vapor pressure curve ($\Delta$) as defined in Eq. 13, FAO-56
+%
+% $$\Delta = \frac{4098\bigg[0.6108\exp\bigg(\frac{17.27 Tmean}{Tmean+237.3}\bigg)\bigg]}{(Tmean+237.3)^2}$$   
+%
+% $\Delta$ = slope of saturation vapor pressure curve at air temp T (kPa/°C)
+%
+% Tmean = average daily air temperture
+%
+%
+% Actual vapor pressure derived from relative humidity data as defined in Eq. 17, FAO-56
+%
+% $$ea = \frac{eTmin\frac{RHmax}{100}+eTmax\frac{RHmin}{100}}{2}$$ 
+%
+% ea = actual vapor pressure (kPa)
+%
+% eTmax = saturation vapor pressure at temp Tmax (kPa)
+%
+% eTmin = saturation vapor pressure at temp Tmin (kPa)
+%
+% RHmax = maximum relative humidity (%)
+%
+% RHmin = minimum relative humidity (%)
+
+delta = 4098*(0.6108*exp(17.27*Tmean./(Tmean+237.3)))./(Tmean+237.3).^2;   
+
+RHmax = weather(:,6);
+RHmin = weather(:,7);    
+ea = (eTmin.*(RHmax./100) + eTmax.*(RHmin./100)) / 2;
+if size(weather,2)==10
+    ea = es-weather(:,10);
+end
+
+% Replace missing vapor pressure data with estimate based on minimum
+% temperature Eq. 48, FAO-56
+ea(isnan(ea)) = 0.611*exp(17.27*Tmin(isnan(ea))./(Tmin(isnan(ea))+237.3));
+
+%% Solar radiation
+% * Extraterrestrial radiation for daily periods as defined in Eq. 21, FAO-56
+%
+% $$Ra = \frac{24(60)}{\pi} \hspace{2mm}Gsc \hspace{2mm} dr[\omega\sin(\phi)\sin(\delta)+\cos(\phi)\cos(\delta)\sin(\omega)]$$
+%
+% Ra = extraterrestrial radiation (MJ / m2 /day)
+%
+% Gsc = solar constant (MJ/m2/min)
+%   
+% dr = 1 + 0.033$\cos$(2$\pi$J/365)  Inverse relative distance Earth-Sun                            
+%
+% J = number of the day of the year     
+%
+% $\phi$ = $\pi$/180decimal degrees  (latitude in radians)     
+%
+% $\delta = 0.409\sin((2\pi J/365)-1.39)\hspace{5mm}$ Solar decimation (rad)
+%
+% $\omega = \pi/2-(\arccos(-\tan(\phi)\tan(\delta)) \hspace{5mm}$ sunset hour angle (radians) 
+
+J = weather(:,2);
+dr= 1 + 0.033 * cos(2*pi*J/365);  % Eq. 23, FAO-56 
+phi = pi/180 * latitude; % Eq. 22, FAO-56   
+d = 0.409*sin((2*pi * J/365) - 1.39);
+omega = (acos(-tan(phi)*tan(d)));
+Gsc = 0.0820; % Approx. 0.0820 
+Ra = 24*(60)/pi * Gsc.*dr .* (omega*sin(phi).*sin(d) + cos(phi).*cos(d).*sin(omega));
+%%
+% * Clear Sky Radiation: Rso (MJ/m2/day)                                        
+Rso =  (0.75 + (2*10^-5)*z).*Ra ; % Eq. 37, FAO-56
+%%
+% * Measured solar Radiation: Rs (MJ/m2/day)   
+Rs = weather(:,8);
+RsIdx = isnan(Rs);
+Rs(RsIdx) = min(0.16*Ra(RsIdx).*(Tmax(RsIdx)-Tmin(RsIdx)).^0.5,Rso(RsIdx)); %replace missing Rs data using Eq. 50, FAO-56
+
+%%
+% * Net Radiation: Rn (MJ/m2/day)
+%
+% Rn = Rns - Rnl       
+%
+% Rns = (1-alpha)Rs                                                 
+%
+% alpha = albedo or canopy reflection coefficient
+%
+% Rnl = (sigma((TmaxK)^4 + ((TminK)^4)/2)*(0.34 - (squareroot(ea))(1.35(Rs/Rso) - 0.35) 
+%
+% Rnl = net outgoing longwave radiation (MJ/m2/day)
+%
+% $\sigma$ = Stefan-Boltzmann constant (4.903*10^-9 MJ/K4/m2/day)
+%
+% TmaxK = max absolute temperature during the 24hr period (K = C+273.16)
+%
+% TminK = min absolute temperature during the 24hr period
+%
+% ea = actual vapor pressure (kPa)
+%
+% Rs/Rso = relative shortwave radiation (limited to <= 1.0)
+alpha = 0.23; % 0.23 for hypothetical grass reference crop
+Rns = (1-alpha)*Rs; % Eq. 38, FAO-56
+sigma  = 4.903*10^-9;
+TmaxK = Tmax + 273.16;
+TminK = Tmin + 273.16;
+Rnl =  sigma*(TmaxK.^4 + TminK.^4)/2.*(0.34 - 0.14*sqrt(ea)).*(1.35*(Rs./Rso) - 0.35); % Eq. 39, FAO-56
+Rn = Rns - Rnl; % Eq. 40, FAO-56                  
+
+%% Soil heat flux density  
+%
+% G = 0 for daily time steps  (MJ/m2/day).
+%
+G = 0; % Eq. 42, FAO-56
+%%
+% *ETo calculation* 
+if size(weather,2) == 10
+    vpd = weather(:,10);
+    ETo = (0.408*delta.*(Rn-G) + gamma*(900./(T+273)).*u2.*vpd) ./ (delta+gamma*(1+0.34*u2));   
+else
+    ETo = (0.408*delta.*(Rn-G) + gamma*(900./(T+273)).*u2.*(es-ea)) ./ (delta+gamma*(1+0.34*u2));   
+end
+
+%%
+% Copyright 2013 _This function is part of the Soil Physics Toolbox  created by the Soil 
+% Physics team at the Plant and Soil Sciences Department, Oklahoma State University._
+%
+
+##### SOURCE END #####
+--></body></html>

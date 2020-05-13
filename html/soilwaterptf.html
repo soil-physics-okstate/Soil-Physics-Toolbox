@@ -1,0 +1,395 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>SOILWATERPTF</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-13"><meta name="DC.source" content="soilwaterptf.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>SOILWATERPTF</h1><!--introduction--><p>Estimates soil water hydraulic properties.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Inputs</a></li><li><a href="#3">Ouputs</a></li><li><a href="#4">Example</a></li><li><a href="#6">Prediction equations</a></li><li><a href="#7">Definitions</a></li><li><a href="#8">Limitations</a></li><li><a href="#9">References</a></li><li><a href="#10">Updates</a></li><li><a href="#12">Moisture regressions</a></li><li><a href="#13">Density effects</a></li><li><a href="#14">Moisture tension</a></li><li><a href="#15">Moisture conductivity</a></li><li><a href="#16">Salinity effects</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[theta_33,theta_1500,thetaS,Ks,K_theta,theta,matric] = soilwaterptf(sand,clay,om)</tt></p><p><tt>[theta_33,theta_1500,thetaS,Ks] = soilwater ptf(sand,clay,om)</tt> Given the fraction of <tt>sand</tt>,|clay|, and organic matter (<tt>om</tt>) the function estimates soil water retained at tensions of 33 kPa(<tt>theta_33</tt>), 1500 kPa (<tt>theta_1500</tt>), saturation (<tt>thetaS</tt>), and saturated hydraulic conductivity (<tt>Ks</tt>). Dimensions of <tt>theta_33</tt>, <tt>theta_1500</tt>, <tt>om</tt>, and <tt>Ks</tt>_ are equal to inputs dimension.</p><p><tt>[...,K_theta,theta,matric] = soilwater ptf(sand,clay,om)</tt> estimates the soil hydraulic conductivity and water retention curve from tension of 0 kPa to 1500 kPa. Dimensions of <tt>K_theta</tt>, <tt>theta</tt>, and <tt>matric</tt> are 1500 by n, where n is the number of columns in <tt>sand</tt>, <tt>clay</tt>, and <tt>om</tt>. <tt>matric</tt> contains the soil matric potential that corresponds with each value in <tt>theta</tt> and <tt>K_theta</tt>.</p><h2>Inputs<a name="2"></a></h2><pre>     sand = soil sand content expressed as a proportion between 0 and 1.
+     clay = soil clay content expressed as a proportion between 0 and 1.
+     om   = soil organic matter expressed as a proportion between 0 and 1.</pre><h2>Ouputs<a name="3"></a></h2><pre>    theta_33   = soil water content at tension of 33 kPa (cm3/cm3).
+    theta_1500 = soil water content at tension of 1500 kPa (cm3/cm3).
+    thetaS     = soil water content at saturation. In this function thetaS is equal to porosity (cm3/cm3).
+    Ks         = Saturated hydraulic conductivity (mm/h).
+    K_theta    = Unsaturated hydraulic conductivity (mm/h).
+    theta      = Soil water content at a specific soil matric potentials (cm3/cm3).
+    matric     = Soil matric potential corresponding to each value in K_theta (absolute value, kPa).</pre><h2>Example<a name="4"></a></h2><p>An example to estimate the soil water characteristics of two soil is presented below.</p><p><b>Soil 1</b>: Textural class:Silt Loam Sand:15%, Clay:18%, om:1.5% (%w)</p><p><b>Soil 2</b>: Textural class:Clay Loam Sand:29%, Clay:32%, om:1.5% (%w)</p><pre class="codeinput"> [theta_33,theta_1500,thetaS,Ks,K_theta,matric] = soilwaterptf([0.15 0.29],[0.18 0.32],[0.015 0.015])
+
+ figure
+ [AX,H1,H2] = plotyy(theta,matric,theta,log10(K_theta)); <span class="comment">% AX(1)--&gt;left axes, AX(2)--&gt; right axes.</span>
+ set(get(AX(1),<span class="string">'Ylabel'</span>),<span class="string">'String'</span>,<span class="string">'Tension (kPa)'</span>,<span class="string">'FontSize'</span>,13)
+ set(get(AX(2),<span class="string">'Ylabel'</span>),<span class="string">'String'</span>,<span class="string">'Log_{10} K(\theta) (mm h^{-1})'</span>,<span class="string">'FontSize'</span>,13)
+
+ set(H1(1),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[1 0 0])
+ set(H1(2),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Color'</span>,[0 0 1])
+ set(H2(1),<span class="string">'LineStyle'</span>,<span class="string">'-'</span>,<span class="string">'LineWidth'</span>,1.2,<span class="string">'Color'</span>,[1 0 0])
+ set(H2(2),<span class="string">'LineStyle'</span>,<span class="string">'-'</span>,<span class="string">'LineWidth'</span>,1.2,<span class="string">'Color'</span>,[0 0 1])
+
+ title(<span class="string">'Moisture vs Tension and Conductivity'</span>,<span class="string">'FontSize'</span>,15)
+ xlabel(<span class="string">'Volumetric water content (cm^3 cm^{-3})'</span>,<span class="string">'FontSize'</span>,13)
+ legend(<span class="string">'Silt Loam SWRC'</span>,<span class="string">'Clay Loam SWRC'</span>,<span class="string">'Silt Loam K(\theta)'</span>,<span class="string">'Clay Loam K(\theta)'</span>,<span class="keyword">...</span>
+        <span class="string">'Location'</span>,<span class="string">'NorthWest'</span>)
+ legend <span class="string">boxoff</span>
+</pre><p><img vspace="5" hspace="5" src="soilwaterptf_plot1.png" alt=""> </p><p><i>Figure showing the relationship between moisture-tension and moisture-conductivity for Silt Loam and Clay Loam soil textural classes. This figure was reproduced based on Figs. 2 and 3 from Saxton and Rawls, 2006.</i></p><h2>Prediction equations<a name="6"></a></h2><p>The following tables were obtained from Saxton and Rawls, 2006.</p><p><a href="soilwaterptf_Tables.png">Detailed description of predictive equations (Click to open)</a></p><h2>Definitions<a name="7"></a></h2><p><b>Field capacity</b>: "The content of water, on a mass or volume basis, remaining in a soil 2 or 3 days after having been wetted with water and after free drainage is negligible". The water content at field capacity is often, and arbitrarily, estimated at a tension of 33 kPa. For coarse soils tensions of 10 kPa and even 1 kPa have also been reported in the literature.</p><p><b>Permanent wilting point</b>:"The largest water content of a soil at which indicator plants, growing in that soil, wilt and fail to recover when placed in a humid chamber. Often estimated by the water content at tension of 1500 kPa soil matric potential.</p><p><b>Plant available water (PAW)</b>: The difference between any soil moisture content and the soil water content at -1500 kPa. This variable is assumed to represent the amount of water currently available for plants.</p><p><b>Plant available water capacity</b>: "The amount of water released between in situ field capacity and the permanent wilting point." This variable is assumed to represents the maximum soil moisture available for plants in a given soil at a given depth.</p><p>Definitions were obtained from the Soil Science Society of America Glossary. For more definitions, please visit: <a href="https://www.soils.org/publications/soils-glossary/">https://www.soils.org/publications/soils-glossary/</a></p><h2>Limitations<a name="8"></a></h2><p>A total of 1722 soil samples from the Soil Characterization database (USDA/NRCS) were used by Saxton and Rawls, 2006 to developed the prediction equations. Samples with bulk density &lt;1.0 or &gt;1.8 g cm^{-3} were not considered. Additionally, soil samples with organic matter content &gt;8% by weigth and samples with &gt;60% clay were not included in the regression analysis. It is also worth to notice that in some soil textures the soil water retention at 33 kPa of suction may not well represent the concept of "field capacity" condition. Soil water retention at any suction can be obtained from the soil water retention curve.</p><h2>References<a name="9"></a></h2><p>Rawls, W.J., Brakensiek, D.L. and Saxton, K.E. 1982. Estimation of Soil-Water        Properties. T Asae 25: 1316-&amp;.</p><p>Saxton, K.E., W.J. Rawls. 2006. Soil water characteristic estimates by        texture and organic matter for hydrologic solutions. Soil Sci. Soc. Am. J.        70:1569-1578. doi:10.2136/sssaj2005.0117</p><p>Saxton, K.E., Rawls, W.J., Romberger, J.S. and Papendick, R.I. 1986. Estimating        Generalized Soil-Water Characteristics from Texture. Soil Sci Soc Am J 50: 1031-1036.</p><h2>Updates<a name="10"></a></h2><p>v.1 Created by AP March 10, 2013.</p><p>v.2 AP December 5, 2013 Added density effects, moisture tension, moisture-conductivity equations.</p><p>Last revised on: 06-Dec-2013 11:26:04</p><pre class="codeinput"><span class="comment">% Error checking</span>
+<span class="keyword">if</span> length(sand) ~= length(clay) || length(sand) ~= length(om)
+    error(<span class="string">'sand, clay, and om dimensions disagree'</span>);
+<span class="keyword">end</span>
+</pre><h2>Moisture regressions<a name="12"></a></h2><div><ul><li>Permanent wilting point. Calculation of soil water retention at -1500 kPa of tension (Table 1. Eq. 1)</li></ul></div><pre class="codeinput">theta_1500t = -0.024.*sand + 0.487.*clay + 0.006.*om + 0.005.*(sand .* om) - 0.013.*(clay .* om)+ 0.068.*(sand .* clay) + 0.031;
+theta_1500 = theta_1500t + (0.14.*theta_1500t - 0.02);
+
+<span class="comment">% * Field capacity.</span>
+<span class="comment">% Calculation of soil water retention at -33 kPa of tension (Table 1. Eq. 2)</span>
+theta_33t= -0.251.*sand + 0.195.*clay + 0.011.*om + 0.006.*(sand .* om) - 0.027.*(clay .* om) + 0.452.*(sand .* clay) + 0.299;
+theta_33 = theta_33t + 1.283.*(theta_33t).^2 - 0.374.*(theta_33t)- 0.015;
+
+<span class="comment">% * Saturation-Field capacity.</span>
+<span class="comment">% Volumetric soil water content between 0 and -33 kPa of tension (Table 1. Eq. 3).</span>
+thetaS_33t= 0.278.*sand + 0.034.*clay + 0.022.*om - 0.018.*(sand.*om)- 0.027.*(clay.*om) - 0.584.*(sand .* clay) + 0.078;
+thetaS_33= thetaS_33t +(0.636.*thetaS_33t - 0.107);
+
+<span class="comment">% * Tension at air entry suction.</span>
+<span class="comment">% Estimation of the tension at air entry (Table 1. Eq. 4).</span>
+psi_et = -21.67*sand - 27.93*clay - 81.97*thetaS_33 + 71.12*sand.*thetaS_33 + 8.29*clay.*thetaS_33 + 14.05*sand.*clay + 27.16;
+psi_e = max(psi_et + 0.02*psi_et.^2 - 0.113*psi_et - 0.7,0.1); <span class="comment">% For some sandy soil generates negative values. A default value of 1 kPa was assumed as a minimum air entry suction.</span>
+
+<span class="comment">% * Saturation.</span>
+<span class="comment">% Calculation of soil water retention at -0 kPa of tension (Table 1. Eq. 5)</span>
+thetaS = theta_33 + thetaS_33 - 0.097.*sand + 0.043; <span class="comment">% Saturation at normal density</span>
+
+<span class="comment">% * Bulk Density</span>
+<span class="comment">% Bulk density assuming density of soild partciles to  be 2.65 g cm^-^3 (Table 1. Eq. 6).</span>
+rho_N= (1-thetaS)*2.65; <span class="comment">% Particle density is assumed to be 2.65 g cm^-3</span>
+</pre><h2>Density effects<a name="13"></a></h2><pre class="codeinput">DF = 1;
+rho_DF = rho_N*DF; <span class="comment">% (Table 1. Eq. 7).</span>
+thetaS_DF = 1-(rho_DF/2.65); <span class="comment">% (Table 1. Eq. 8).</span>
+theta_33_DF = theta_33 - 0.2*(thetaS-thetaS_DF); <span class="comment">% (Table 1. Eq. 9).</span>
+thetaS_33_DF = thetaS_DF - theta_33_DF; <span class="comment">%#ok&lt;NASGU&gt; % (Table 1. Eq. 10).</span>
+<span class="comment">% thetaS_33_DF is used with equations that account for gravel, not present</span>
+<span class="comment">% in this version. For more information see Table 1 Eqs. 19-22 in Saxton and Rawls, 2006.</span>
+</pre><h2>Moisture tension<a name="14"></a></h2><pre class="codeinput">B = (log(1500) - log(33)) ./ (log(theta_33) - log(theta_1500)); <span class="comment">% (Table 1. Eq. 15).</span>
+A = exp(log(33) + B.*log(theta_33)); <span class="comment">% (Table 1. Eq. 14).</span>
+values = 1500;
+
+<span class="comment">% Create matrices foe easier manipulation of data.</span>
+theta = linspacemat(thetaS,theta_1500,values); <span class="comment">% |linspacemat| is a custom</span>
+<span class="comment">% function that generates linear spacing in handling vectors or matrices.</span>
+thetaS_mat = repmat(thetaS,values,1);
+theta_33mat = repmat(theta_33,values,1);
+theta_1500mat = repmat(theta_1500,values,1);
+
+<span class="comment">% To avoid "for loops" the matrix of soil matric potentials used to build a</span>
+<span class="comment">% piecewise soil water retention curve was partitioned in two matrices:</span>
+<span class="comment">% matric1 and matric2</span>
+
+<span class="comment">% matric1</span>
+Idx_psi_e_33 =  theta&gt;theta_33mat &amp; theta&lt;thetaS_mat;
+matric1 = 33 - ((theta.*Idx_psi_e_33 - theta_33mat.*Idx_psi_e_33).* (repmat((33 - psi_e),values,1))./ (thetaS_mat- theta_33mat));
+matric1(matric1==33) = 1; <span class="comment">% Values that were false result in a value of 33.</span>
+<span class="comment">% A value of one has the advantage of allowing element-wise matrix combination</span>
+<span class="comment">% when merging matric1 with matric2 into matric.</span>
+
+<span class="comment">% matric2</span>
+Idx_1500_33 =  theta&gt;=theta_1500mat &amp; theta&lt;=theta_33mat;
+matric2 = theta.*Idx_1500_33;
+matric2(matric2==0) = NaN; <span class="comment">% Convert zeros to NaN to avoid numeric changes.</span>
+matric2 = repmat(A,values,1).*matric2.^(-(repmat(B,values,1)));
+matric2(isnan(matric2)) = 1; <span class="comment">% Same as with matric one.</span>
+
+<span class="comment">% Combine matric1 and matric2</span>
+matric = matric1.*matric2;
+</pre><h2>Moisture conductivity<a name="15"></a></h2><pre class="codeinput">lambda = 1./B; <span class="comment">% (Table 1. Eq. 18).</span>
+Ks = 1930*(thetaS - theta_33).^(3 - lambda); <span class="comment">% (Table 1. Eq. 16).</span>
+K_theta = repmat(Ks,values,1).*(theta./repmat(thetaS,values,1)).^(3+(2./repmat(lambda,values,1))); <span class="comment">% (Table 1. Eq. 17).</span>
+</pre><h2>Salinity effects<a name="16"></a></h2><p><b>*Not enabled in this version</b>*</p><pre class="codeinput"><span class="comment">%PSI_o = 36*repmat(EC,values,1); % (Table 1. Eq. 13).</span>
+<span class="comment">%PSI_o_theta = repmat(thetaS,values,1)./theta.*PSI_o; % (Table 1. Eq. 24).</span>
+<span class="comment">%osmotic = PSI_o_theta;</span>
+</pre><p><i>This function is part of the Soil Physics Toolbox  created by the Soil Physics team at the Plant and Soil Sciences Department, Oklahoma State University.</i></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% SOILWATERPTF
+% Estimates soil water hydraulic properties.
+%
+%% Syntax
+%
+% |[theta_33,theta_1500,thetaS,Ks,K_theta,theta,matric] = soilwaterptf(sand,clay,om)|
+%
+% |[theta_33,theta_1500,thetaS,Ks] = soilwater ptf(sand,clay,om)|
+% Given the fraction of |sand|,|clay|, and organic matter (|om|) the 
+% function estimates soil water retained at tensions of 33 kPa(|theta_33|), 
+% 1500 kPa (|theta_1500|), saturation (|thetaS|), and saturated hydraulic 
+% conductivity (|Ks|). Dimensions of |theta_33|, |theta_1500|, |om|, and
+% |Ks|_ are equal to inputs dimension.
+%
+% |[...,K_theta,theta,matric] = soilwater ptf(sand,clay,om)| estimates the 
+% soil hydraulic conductivity and water retention curve from tension of 0 kPa
+% to 1500 kPa. Dimensions of |K_theta|, |theta|, and |matric| are 1500 by n,
+% where n is the number of columns in |sand|, |clay|, and |om|. |matric| 
+% contains the soil matric potential that corresponds with each value in
+% |theta| and |K_theta|.
+%
+%% Inputs
+%       sand = soil sand content expressed as a proportion between 0 and 1.
+%       clay = soil clay content expressed as a proportion between 0 and 1.
+%       om   = soil organic matter expressed as a proportion between 0 and 1.
+%
+%% Ouputs
+%      theta_33   = soil water content at tension of 33 kPa (cm3/cm3).
+%      theta_1500 = soil water content at tension of 1500 kPa (cm3/cm3).
+%      thetaS     = soil water content at saturation. In this function thetaS is equal to porosity (cm3/cm3).
+%      Ks         = Saturated hydraulic conductivity (mm/h).
+%      K_theta    = Unsaturated hydraulic conductivity (mm/h).
+%      theta      = Soil water content at a specific soil matric potentials (cm3/cm3).
+%      matric     = Soil matric potential corresponding to each value in K_theta (absolute value, kPa).
+%      
+%% Example
+%
+% An example to estimate the soil water characteristics of two soil is presented below.
+%
+% *Soil 1*: Textural class:Silt Loam Sand:15%, Clay:18%, om:1.5% (%w)
+%
+% *Soil 2*: Textural class:Clay Loam Sand:29%, Clay:32%, om:1.5% (%w)
+%
+ [theta_33,theta_1500,thetaS,Ks,K_theta,matric] = soilwaterptf([0.15 0.29],[0.18 0.32],[0.015 0.015])
+
+ figure
+ [AX,H1,H2] = plotyy(theta,matric,theta,log10(K_theta)); % AX(1)REPLACE_WITH_DASH_DASH>left axes, AX(2)REPLACE_WITH_DASH_DASH> right axes.
+ set(get(AX(1),'Ylabel'),'String','Tension (kPa)','FontSize',13) 
+ set(get(AX(2),'Ylabel'),'String','Log_{10} K(\theta) (mm h^{-1})','FontSize',13)
+ 
+ set(H1(1),'LineStyle','REPLACE_WITH_DASH_DASH','LineWidth',2,'Color',[1 0 0])
+ set(H1(2),'LineStyle','REPLACE_WITH_DASH_DASH','LineWidth',2,'Color',[0 0 1])
+ set(H2(1),'LineStyle','-','LineWidth',1.2,'Color',[1 0 0])
+ set(H2(2),'LineStyle','-','LineWidth',1.2,'Color',[0 0 1])
+ 
+ title('Moisture vs Tension and Conductivity','FontSize',15)
+ xlabel('Volumetric water content (cm^3 cm^{-3})','FontSize',13)
+ legend('Silt Loam SWRC','Clay Loam SWRC','Silt Loam K(\theta)','Clay Loam K(\theta)',...
+        'Location','NorthWest')
+ legend boxoff
+%% 
+% <<soilwaterptf_plot1.png>>
+%
+% _Figure showing the relationship between moisture-tension and
+% moisture-conductivity for Silt Loam and Clay Loam soil textural classes.
+% This figure was reproduced based on Figs. 2 and 3 from Saxton and Rawls,
+% 2006._
+%
+%% Prediction equations
+% The following tables were obtained from Saxton and Rawls, 2006.
+%
+% <soilwaterptf_Tables.png Detailed description of predictive equations (Click to open)>
+%
+%% Definitions
+%
+% *Field capacity*: "The content of water, on a mass or volume basis, remaining
+% in a soil 2 or 3 days after having been wetted with water and after free 
+% drainage is negligible". The water content at field capacity is often, and
+% arbitrarily, estimated at a tension of 33 kPa. For coarse soils tensions
+% of 10 kPa and even 1 kPa have also been reported in the literature.
+%
+% *Permanent wilting point*:"The largest water content of a soil at which 
+% indicator plants, growing in that soil, wilt and fail to recover when 
+% placed in a humid chamber. Often estimated by the water content at 
+% tension of 1500 kPa soil matric potential.
+%
+% *Plant available water (PAW)*: The difference between any soil moisture
+% content and the soil water content at -1500 kPa. This variable is assumed
+% to represent the amount of water currently available for plants.
+%
+% *Plant available water capacity*: "The amount of water released between 
+% in situ field capacity and the permanent wilting point." This variable
+% is assumed to represents the maximum soil moisture available for plants 
+% in a given soil at a given depth.
+%
+% Definitions were obtained from the Soil Science Society of America Glossary.
+% For more definitions, please visit:
+% <https://www.soils.org/publications/soils-glossary/>
+%
+%% Limitations
+% A total of 1722 soil samples from the Soil Characterization database 
+% (USDA/NRCS) were used by Saxton and Rawls, 2006 to developed the 
+% prediction equations. Samples with bulk density <1.0 or
+% >1.8 g cm^{-3} were not considered. Additionally, soil samples with
+% organic matter content >8% by weigth and samples with >60% clay were
+% not included in the regression analysis.
+% It is also worth to notice that in some soil textures the soil water
+% retention at 33 kPa of suction may not well represent the concept of
+% "field capacity" condition. Soil water retention at any suction can be
+% obtained from the soil water retention curve.
+%
+%% References
+% Rawls, W.J., Brakensiek, D.L. and Saxton, K.E. 1982. Estimation of Soil-Water
+%        Properties. T Asae 25: 1316-&.
+%
+% Saxton, K.E., W.J. Rawls. 2006. Soil water characteristic estimates by
+%        texture and organic matter for hydrologic solutions. Soil Sci. Soc. Am. J.
+%        70:1569-1578. doi:10.2136/sssaj2005.0117
+%
+% Saxton, K.E., Rawls, W.J., Romberger, J.S. and Papendick, R.I. 1986. Estimating 
+%        Generalized Soil-Water Characteristics from Texture. Soil Sci Soc Am J 50: 1031-1036.
+%
+%% Updates
+%
+% v.1 Created by AP March 10, 2013.
+%
+% v.2 AP December 5, 2013 Added density effects, moisture tension,
+% moisture-conductivity equations.
+%
+% Last revised on: 06-Dec-2013 11:26:04
+  
+
+%%
+%
+
+% Error checking
+if length(sand) ~= length(clay) || length(sand) ~= length(om)
+    error('sand, clay, and om dimensions disagree');
+end
+
+%% Moisture regressions
+% * Permanent wilting point.
+% Calculation of soil water retention at -1500 kPa of tension (Table 1. Eq. 1)
+theta_1500t = -0.024.*sand + 0.487.*clay + 0.006.*om + 0.005.*(sand .* om) - 0.013.*(clay .* om)+ 0.068.*(sand .* clay) + 0.031; 
+theta_1500 = theta_1500t + (0.14.*theta_1500t - 0.02);
+
+% * Field capacity.
+% Calculation of soil water retention at -33 kPa of tension (Table 1. Eq. 2)
+theta_33t= -0.251.*sand + 0.195.*clay + 0.011.*om + 0.006.*(sand .* om) - 0.027.*(clay .* om) + 0.452.*(sand .* clay) + 0.299;
+theta_33 = theta_33t + 1.283.*(theta_33t).^2 - 0.374.*(theta_33t)- 0.015;
+
+% * Saturation-Field capacity.
+% Volumetric soil water content between 0 and -33 kPa of tension (Table 1. Eq. 3). 
+thetaS_33t= 0.278.*sand + 0.034.*clay + 0.022.*om - 0.018.*(sand.*om)- 0.027.*(clay.*om) - 0.584.*(sand .* clay) + 0.078;
+thetaS_33= thetaS_33t +(0.636.*thetaS_33t - 0.107);
+
+% * Tension at air entry suction.
+% Estimation of the tension at air entry (Table 1. Eq. 4).
+psi_et = -21.67*sand - 27.93*clay - 81.97*thetaS_33 + 71.12*sand.*thetaS_33 + 8.29*clay.*thetaS_33 + 14.05*sand.*clay + 27.16;
+psi_e = max(psi_et + 0.02*psi_et.^2 - 0.113*psi_et - 0.7,0.1); % For some sandy soil generates negative values. A default value of 1 kPa was assumed as a minimum air entry suction.
+
+% * Saturation.
+% Calculation of soil water retention at -0 kPa of tension (Table 1. Eq. 5)
+thetaS = theta_33 + thetaS_33 - 0.097.*sand + 0.043; % Saturation at normal density
+
+% * Bulk Density
+% Bulk density assuming density of soild partciles to  be 2.65 g cm^-^3 (Table 1. Eq. 6).
+rho_N= (1-thetaS)*2.65; % Particle density is assumed to be 2.65 g cm^-3
+
+%% Density effects
+DF = 1; 
+rho_DF = rho_N*DF; % (Table 1. Eq. 7).
+thetaS_DF = 1-(rho_DF/2.65); % (Table 1. Eq. 8).
+theta_33_DF = theta_33 - 0.2*(thetaS-thetaS_DF); % (Table 1. Eq. 9).
+thetaS_33_DF = thetaS_DF - theta_33_DF; %#ok<NASGU> % (Table 1. Eq. 10).
+% thetaS_33_DF is used with equations that account for gravel, not present
+% in this version. For more information see Table 1 Eqs. 19-22 in Saxton and Rawls, 2006.
+
+%% Moisture tension
+B = (log(1500) - log(33)) ./ (log(theta_33) - log(theta_1500)); % (Table 1. Eq. 15).
+A = exp(log(33) + B.*log(theta_33)); % (Table 1. Eq. 14).
+values = 1500;
+
+% Create matrices foe easier manipulation of data.
+theta = linspacemat(thetaS,theta_1500,values); % |linspacemat| is a custom 
+% function that generates linear spacing in handling vectors or matrices.
+thetaS_mat = repmat(thetaS,values,1);
+theta_33mat = repmat(theta_33,values,1);
+theta_1500mat = repmat(theta_1500,values,1);
+
+% To avoid "for loops" the matrix of soil matric potentials used to build a
+% piecewise soil water retention curve was partitioned in two matrices:
+% matric1 and matric2
+
+% matric1
+Idx_psi_e_33 =  theta>theta_33mat & theta<thetaS_mat;
+matric1 = 33 - ((theta.*Idx_psi_e_33 - theta_33mat.*Idx_psi_e_33).* (repmat((33 - psi_e),values,1))./ (thetaS_mat- theta_33mat));
+matric1(matric1==33) = 1; % Values that were false result in a value of 33.
+% A value of one has the advantage of allowing element-wise matrix combination
+% when merging matric1 with matric2 into matric.
+
+% matric2
+Idx_1500_33 =  theta>=theta_1500mat & theta<=theta_33mat;
+matric2 = theta.*Idx_1500_33; 
+matric2(matric2==0) = NaN; % Convert zeros to NaN to avoid numeric changes.
+matric2 = repmat(A,values,1).*matric2.^(-(repmat(B,values,1)));
+matric2(isnan(matric2)) = 1; % Same as with matric one.
+
+% Combine matric1 and matric2
+matric = matric1.*matric2; 
+
+%% Moisture conductivity
+lambda = 1./B; % (Table 1. Eq. 18).
+Ks = 1930*(thetaS - theta_33).^(3 - lambda); % (Table 1. Eq. 16).
+K_theta = repmat(Ks,values,1).*(theta./repmat(thetaS,values,1)).^(3+(2./repmat(lambda,values,1))); % (Table 1. Eq. 17).
+
+%% Salinity effects
+% **Not enabled in this version**
+%PSI_o = 36*repmat(EC,values,1); % (Table 1. Eq. 13).
+%PSI_o_theta = repmat(thetaS,values,1)./theta.*PSI_o; % (Table 1. Eq. 24).
+%osmotic = PSI_o_theta;
+
+%%
+% _This function is part of the Soil Physics Toolbox  created by the Soil 
+% Physics team at the Plant and Soil Sciences Department, Oklahoma State University._
+%
+##### SOURCE END #####
+--></body></html>

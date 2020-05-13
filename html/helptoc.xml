@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding="utf-8"?>
+<toc version="2.0">
+
+<tocitem target="homepage.html" image="HelpIcon.USER_GUIDE">Soil Physics
+	<tocitem image="HelpIcon.FUNCTION">Soil Water Balance
+		<tocitem image="HelpIcon.FUNCTION" target="FAO56ETo.html">FAO56ETo</tocitem>
+        <tocitem image="HelpIcon.FUNCTION" target="GreenAmpt.html">GreenAmpt</tocitem>
+        <tocitem image="HelpIcon.FUNCTION" target="greenamptpar.html">greenamptpar</tocitem>
+        <tocitem image="HelpIcon.FUNCTION" target="xinfiltration.html">xinfiltration</tocitem>
+    </tocitem>
+    
+    <tocitem image="HelpIcon.FUNCTION">Soil Energy Balance
+		<tocitem image="HelpIcon.FUNCTION" target="deVries.html">deVries</tocitem>
+        <tocitem image="HelpIcon.EXAMPLES" target="deVriesSaturationExample.html">deVriesSaturationExample</tocitem>
+    </tocitem> 
+    
+    <tocitem image="HelpIcon.FUNCTION">Pedo-Transfer Functions
+        <tocitem image="HelpIcon.FUNCTION" target="soilwaterptf.html">soilwaterptf</tocitem>
+        <tocitem image="HelpIcon.FUNCTION" target="rosetta.html">rosetta</tocitem>
+        <tocitem image="HelpIcon.FUNCTION" target="SWRCfun.html">SWRCfun</tocitem>
+        <tocitem image="HelpIcon.FUNCTION" target="SWRCfit.html">SWRCfit</tocitem>
+    </tocitem>
+</tocitem>
+</toc>

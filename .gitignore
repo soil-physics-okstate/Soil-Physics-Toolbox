@@ -1,0 +1,12 @@
+# Ignore directories with Mesonet data
+Mesotoolbox v1.1
+Mesotoolbox West Texas Mesonet v1.0
+
+# Ignore SSURGO data
+SSURGO
+
+# Ignore other directories unique to OSU Soil Physics Group
+Soil Physics Group logos
+Maps
+
+mesoinfo.mat

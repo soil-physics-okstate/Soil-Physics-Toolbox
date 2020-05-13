@@ -1,0 +1,208 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>xinfiltration</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-13"><meta name="DC.source" content="xinfiltration.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>xinfiltration</h1><!--introduction--><p>Horizontal infiltration model.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Description</a></li><li><a href="#2">Syntax</a></li><li><a href="#3">Inputs</a></li><li><a href="#4">Outputs</a></li><li><a href="#5">See also</a></li><li><a href="#6">References</a></li><li><a href="#7">Updates</a></li></ul></div><h2>Description<a name="1"></a></h2><p>This function calculates the sorptivity, and alpha and n parameters of the van Genuchten (1980) soil water retention model based on a horizontal infiltration experiment using the integral solution proposed by Shao and Horton, 1998. Sorptivity is calculated based on cumulative infiltration using Philipp's infiltration model.</p><h2>Syntax<a name="2"></a></h2><p><tt>[S, d, alpha, n] = xinfiltration (theta_s,theta_r,theta_ini,Ksat,distance,theta_v,time,cumInfiltration)</tt></p><h2>Inputs<a name="3"></a></h2><pre>     |theta_s| = Saturated water content (cm3 cm-3)
+     |theta_r| = Residual water content (cm3 cm-3)
+     |theta_ini| = Initial water content (cm3 cm-3)
+     |Ksat| = Saturated hydraulic conductivity. (cm h-1)
+     |distance| = Distance of the wetting front tracked through the trasnparent tube [cm]
+     |theta_v| = Water content of each section of the horizontal tube [cm3 cm-3]
+     |time| = Time while recording cumulative infiltration [s]
+     |cumInfiltration| = Cumulative infiltration as measured from the Mariotte's bottle [cm]</pre><h2>Outputs<a name="4"></a></h2><pre>     S = Sorptivity</pre><pre>     d = distance equal to Boltzmann variable (mm/s^0.5) st which</pre><pre>     theta(d) = theta_initial. In other words we are trying to find the
+     wetting front, which is likely to be right in the transition from
+     wet soil to a soil that has not been wetted yet.</pre><pre>     alpha = van Genuchten SWR curve scaling parameter inversely proportional
+             to the mean pore diameter.</pre><pre>     n = van Genuchten SWR curve shape parameter related to the pore-size distribution.</pre><h2>See also<a name="5"></a></h2><p><a href="GreenAmpt.html"><tt>GreenAmpt</tt></a></p><h2>References<a name="6"></a></h2><p>Shao, M. and Horton, R. 1998. Integral method for estimating soil Hydraulic properties. Soil Sci. Soc. Am. J. 62: 585-592.</p><h2>Updates<a name="7"></a></h2><p>Created by Andres Patrignani     10-Oct-2013</p><pre class="codeinput">Ksat = Ksat/3600; <span class="comment">% Convert Ksat from cm/h to cm/sec</span>
+
+<span class="comment">% Remove NaNs</span>
+distance(isnan(distance)) = [];
+theta_v (isnan(theta_v)) = [];
+time(isnan(time)) = [];
+cumInfiltration(isnan(cumInfiltration)) = [];
+
+<span class="comment">% Step 1 Calculate sorptivity</span>
+Timeroot = time.^0.5; <span class="comment">% Calculate the square root of time.</span>
+
+<span class="comment">% Fit data forcing line through y=zero;</span>
+S=Timeroot\cumInfiltration;
+
+<span class="comment">% An alternative is to use regress</span>
+<span class="comment">%x = [zeros(size(Timeroot)) Timeroot]; %independent variables</span>
+<span class="comment">%[b] = regress(CumInf,x); %determine coefficients</span>
+<span class="comment">% For details in the statistical analysis use: [b,bint,r,rint,stats] = regress(CumInf,x);</span>
+<span class="comment">%S = b(2); % b(1) is the intercept which was forced to be 0, since we start at time 0.</span>
+
+<span class="comment">% Step 2 Calculate wetting front distance (d)</span>
+Xf = interp1(theta_v, distance,theta_ini); <span class="comment">% Position of the wetting front (Xf).</span>
+<span class="comment">% Source of error would be to place first Distance (as it is the value we</span>
+<span class="comment">% usually place in the x axis), and Water Content in the second place</span>
+<span class="comment">% (as it is the variable we usually place in the y axis). But since we want</span>
+<span class="comment">% to find distance based on knowledge of distance and Water Content we nee</span>
+<span class="comment">% to invert this in the function, otherwise we will have NaN as a result.</span>
+d = Xf/(Timeroot(end)); <span class="comment">% Characteristic wetting length.</span>
+
+<span class="comment">% Step 3 Calculate n</span>
+n = S/(d*(theta_s-theta_ini)-S); <span class="comment">% Shape parameter related to the pore-size distribution. [eq 26] in Shao and Horton, 1998</span>
+
+<span class="comment">% Step 4 Calculate alpha</span>
+m = 1-1/n; <span class="comment">% fitting parameter.</span>
+Norm_theta = (theta_s-theta_ini)/(theta_s-theta_r); <span class="comment">% Normalize water content.</span>
+alpha = (2*Ksat)/(S*d)*(1/m*Norm_theta)^(1/n); <span class="comment">% Scaling parameter inversely proportional to the mean pore diameter. [eq 25] in Shao and Horton, 1998.</span>
+<span class="comment">% [eq 19] yields the same result as [eq 25].</span>
+</pre><p>Copyright 2013 <i>This function is part of the Soil Physics Toolbox  created by the Soil Physics team at the Plant and Soil Sciences Department, Oklahoma State University.</i></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% xinfiltration
+% Horizontal infiltration model.
+%
+%% Description
+% This function calculates the sorptivity, and alpha and n parameters of the 
+% van Genuchten (1980) soil water retention model based on a horizontal infiltration 
+% experiment using the integral solution proposed by Shao and Horton, 1998. Sorptivity 
+% is calculated based on cumulative infiltration using Philipp's infiltration model. 
+%
+%% Syntax
+% |[S, d, alpha, n] = xinfiltration (theta_s,theta_r,theta_ini,Ksat,distance,theta_v,time,cumInfiltration)|
+%
+%% Inputs
+%       |theta_s| = Saturated water content (cm3 cm-3)
+%       |theta_r| = Residual water content (cm3 cm-3)
+%       |theta_ini| = Initial water content (cm3 cm-3)
+%       |Ksat| = Saturated hydraulic conductivity. (cm h-1)
+%       |distance| = Distance of the wetting front tracked through the trasnparent tube [cm]
+%       |theta_v| = Water content of each section of the horizontal tube [cm3 cm-3]
+%       |time| = Time while recording cumulative infiltration [s]
+%       |cumInfiltration| = Cumulative infiltration as measured from the Mariotte's bottle [cm]
+%
+%% Outputs
+%       S = Sorptivity
+%       
+%       d = distance equal to Boltzmann variable (mm/s^0.5) st which
+%
+%       theta(d) = theta_initial. In other words we are trying to find the
+%       wetting front, which is likely to be right in the transition from
+%       wet soil to a soil that has not been wetted yet.
+%       
+%       alpha = van Genuchten SWR curve scaling parameter inversely proportional
+%               to the mean pore diameter.
+%       
+%       n = van Genuchten SWR curve shape parameter related to the pore-size distribution.
+%
+%% See also
+% <GreenAmpt.html |GreenAmpt|>
+%
+%% References
+% Shao, M. and Horton, R. 1998. Integral method for estimating soil Hydraulic 
+% properties. Soil Sci. Soc. Am. J. 62: 585-592.
+%
+%% Updates
+% Created by Andres Patrignani     10-Oct-2013
+
+%%
+%
+Ksat = Ksat/3600; % Convert Ksat from cm/h to cm/sec
+
+% Remove NaNs
+distance(isnan(distance)) = [];
+theta_v (isnan(theta_v)) = [];
+time(isnan(time)) = [];
+cumInfiltration(isnan(cumInfiltration)) = [];
+
+% Step 1 Calculate sorptivity
+Timeroot = time.^0.5; % Calculate the square root of time.
+
+% Fit data forcing line through y=zero;
+S=Timeroot\cumInfiltration;
+
+% An alternative is to use regress
+%x = [zeros(size(Timeroot)) Timeroot]; %independent variables
+%[b] = regress(CumInf,x); %determine coefficients
+% For details in the statistical analysis use: [b,bint,r,rint,stats] = regress(CumInf,x); 
+%S = b(2); % b(1) is the intercept which was forced to be 0, since we start at time 0.
+
+% Step 2 Calculate wetting front distance (d)
+Xf = interp1(theta_v, distance,theta_ini); % Position of the wetting front (Xf). 
+% Source of error would be to place first Distance (as it is the value we 
+% usually place in the x axis), and Water Content in the second place 
+% (as it is the variable we usually place in the y axis). But since we want 
+% to find distance based on knowledge of distance and Water Content we nee 
+% to invert this in the function, otherwise we will have NaN as a result.
+d = Xf/(Timeroot(end)); % Characteristic wetting length.
+
+% Step 3 Calculate n
+n = S/(d*(theta_s-theta_ini)-S); % Shape parameter related to the pore-size distribution. [eq 26] in Shao and Horton, 1998
+
+% Step 4 Calculate alpha
+m = 1-1/n; % fitting parameter.
+Norm_theta = (theta_s-theta_ini)/(theta_s-theta_r); % Normalize water content.
+alpha = (2*Ksat)/(S*d)*(1/m*Norm_theta)^(1/n); % Scaling parameter inversely proportional to the mean pore diameter. [eq 25] in Shao and Horton, 1998.
+% [eq 19] yields the same result as [eq 25].
+
+%%
+% Copyright 2013 _This function is part of the Soil Physics Toolbox  created by the Soil 
+% Physics team at the Plant and Soil Sciences Department, Oklahoma State University._
+%
+##### SOURCE END #####
+--></body></html>

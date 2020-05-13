@@ -1,0 +1,205 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>SWRCFUN</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-12"><meta name="DC.source" content="SWRCfun.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>SWRCFUN</h1><!--introduction--><p>Calculates matric potential or volumetric water content using a soil water retention model.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Inputs</a></li><li><a href="#3">Output</a></li><li><a href="#4">Examples</a></li><li><a href="#5">See also</a></li><li><a href="#6">References</a></li><li><a href="#7">Updates</a></li><li><a href="#8">Soil water retention model</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[Output] = SWRCfun (texturalClass,variableName,variableValue)</tt></p><p><tt>[Output] = SWRCfun (texturalClass,variableName,variableValue)</tt> calculates either the matric potential or the volumetric water content of a user-defined soil textural class. Output.h or Output.theta (see below for more details) is a vector with the same length as variableValue.</p><h2>Inputs<a name="2"></a></h2><pre>     texturalClass = String indicating one of the 12 soil textural classes defined by the USDA.</pre><pre>     variableName =  String indicating the values in variableValue.
+                     variableName can be either 'matric' or 'theta'.</pre><pre>     variableValue = vector with values corresponding to variableName.
+                     volumetric water content must be in cm3/cm3.
+                     matric potential must be in kPa.</pre><h2>Output<a name="3"></a></h2><pre>     Output = Possible outputs are Output.h (matric potential) when variableName
+              is 'volumetric' and variableValue consists of volumetric water content.
+              Another alternative is Output.theta when the input data is the matric potential.
+              Output is a structure.</pre><h2>Examples<a name="4"></a></h2><p>An example of calculating the volumetric water content given the matric potential for a sand and silt soils is presented below.</p><pre>     [Sand] = SWRCfun ('sand', 'matric',1:1500);
+     [Silt] = SWRCfun ('silt', 'matric',1:1500);
+     plot(log10(1:1500),Sand.theta_v,':b',log10(1:1500),Silt.theta_v,':r','LineWidth',2);
+     title('Sand and Silt Soil Water Retention Curves','FontSize',13)
+     xlabel('Log |\psi_m| (kPa)','FontSize',13)
+     ylabel('\theta_v (cm^3 cm^{-3})','FontSize',13)
+     legend ('Sandy Soil', 'Silty Soil')
+     legend boxoff
+     set(gca,'FontSize',13')</pre><p><img vspace="5" hspace="5" src="SWRCfun_plot1.png" alt=""> </p><p>In order to calculate the matric potential of a soil textural class given some volumetric water content values:</p><pre>     [Sand] = SWRCfun ('sand', 'theta', 0.150:0.001:0.450);</pre><p>Notice that both examples have the same structure name "Sand". However, the fields within the strucutre are different. The first example will result in Sand.h, and the second example in Sand.theta.</p><h2>See also<a name="5"></a></h2><p><a href="rosetta.html"><tt>rosetta</tt></a></p><h2>References<a name="6"></a></h2><p>van Genuchten, M. Th. 1980. A Closed-form Equation for Predicting the Hydraulic Conductivity of Unsaturated Soils. Soil Sci.Soc. Am. J. 44(5)892-898</p><p><a href="https://dl.sciencesocieties.org/publications/sssaj/abstracts/44/5/SS0440050892">https://dl.sciencesocieties.org/publications/sssaj/abstracts/44/5/SS0440050892</a></p><h2>Updates<a name="7"></a></h2><p>v.1 Created by AP Monday, September 23, ?2013.</p><p>Last revised on 10-Dec-2013 16:41:19</p><h2>Soil water retention model<a name="8"></a></h2><p>To calculate volumetric water content (<img src="SWRCfun_eq53956.png" alt="$\theta_v$">) given the soil matric potential the model is:</p><p><img src="SWRCfun_eq88239.png" alt="$$ \frac{\theta_v - \theta_r}{\theta_s - \theta_r} = \bigg[\frac{1}{1+(\alpha \psi_m)^n)}\bigg]^m $$"></p><p>Check input</p><pre class="codeinput"><span class="keyword">if</span> ~isvector(variableValue)
+    error(<span class="string">'variableValue must be a vector'</span>)
+<span class="keyword">end</span>
+
+<span class="comment">% Retrieve vG parameters for the selected textural class</span>
+[~, theta_r, theta_s, alpha, n, m] = rosetta (texturalClass);
+
+<span class="comment">%Calculate theta_v or matric potential (h) according to user specification.</span>
+<span class="keyword">if</span> strcmpi(variableName,<span class="string">'matric'</span>) <span class="comment">% If input was matric potential then the function will calculate theta_v.</span>
+    Output.theta = theta_r + (theta_s-theta_r)./(1+(alpha*variableValue).^n).^m;
+
+<span class="keyword">elseif</span> strcmpi(variableName,<span class="string">'theta'</span>) <span class="comment">% If inputs was theta_v, then the output will be the matric potential.</span>
+    Output.h = ( ( ( ( (variableValue-theta_r)/(theta_s-theta_r) ).^(-1/m) )-1).^ (1/n) ) / alpha;
+
+<span class="keyword">else</span>
+    error(<span class="string">'Please type a valid variableName'</span>); <span class="comment">% If the input "variableName" does not match</span>
+<span class="comment">% one of the categories before, it will return an error message.</span>
+
+<span class="keyword">end</span>
+</pre><p>Copyright 2013 <i>This function is part of the Soil Physics Toolbox  created by the Soil Physics team at the Plant and Soil Sciences Department, Oklahoma State University.</i></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% SWRCFUN 
+% Calculates matric potential or volumetric water content using a soil water retention model.
+%
+%% Syntax
+%
+% |[Output] = SWRCfun (texturalClass,variableName,variableValue)|
+%
+% |[Output] = SWRCfun (texturalClass,variableName,variableValue)|
+% calculates either the matric potential or the volumetric water content of
+% a user-defined soil textural class. Output.h or Output.theta (see below
+% for more details) is a vector with the same length as variableValue.
+%
+%% Inputs
+%       texturalClass = String indicating one of the 12 soil textural classes defined by the USDA.
+%                         
+%       variableName =  String indicating the values in variableValue.
+%                       variableName can be either 'matric' or 'theta'.
+%
+%       variableValue = vector with values corresponding to variableName.
+%                       volumetric water content must be in cm3/cm3.
+%                       matric potential must be in kPa.
+%
+%% Output
+%       Output = Possible outputs are Output.h (matric potential) when variableName 
+%                is 'volumetric' and variableValue consists of volumetric water content. 
+%                Another alternative is Output.theta when the input data is the matric potential.
+%                Output is a structure.
+%
+%% Examples
+% An example of calculating the volumetric water content given the matric
+% potential for a sand and silt soils is presented below.
+%
+%       [Sand] = SWRCfun ('sand', 'matric',1:1500);
+%       [Silt] = SWRCfun ('silt', 'matric',1:1500);
+%       plot(log10(1:1500),Sand.theta_v,':b',log10(1:1500),Silt.theta_v,':r','LineWidth',2);
+%       title('Sand and Silt Soil Water Retention Curves','FontSize',13)
+%       xlabel('Log |\psi_m| (kPa)','FontSize',13)
+%       ylabel('\theta_v (cm^3 cm^{-3})','FontSize',13)
+%       legend ('Sandy Soil', 'Silty Soil')
+%       legend boxoff
+%       set(gca,'FontSize',13')
+%
+% <<SWRCfun_plot1.png>>
+%
+% In order to calculate the matric potential of a soil textural class given
+% some volumetric water content values:
+%
+%       [Sand] = SWRCfun ('sand', 'theta', 0.150:0.001:0.450);
+%
+% Notice that both examples have the same structure name "Sand". However,
+% the fields within the strucutre are different. The first example will
+% result in Sand.h, and the second example in Sand.theta.
+%
+%% See also  
+% <rosetta.html |rosetta|>
+%
+%% References
+% van Genuchten, M. Th. 1980. A Closed-form Equation for Predicting the Hydraulic 
+% Conductivity of Unsaturated Soils. Soil Sci.Soc. Am. J. 44(5)892-898
+% 
+% <https://dl.sciencesocieties.org/publications/sssaj/abstracts/44/5/SS0440050892>
+%
+%% Updates
+%
+% v.1 Created by AP Monday, September 23, ?2013.
+%
+% Last revised on 10-Dec-2013 16:41:19
+%
+%% Soil water retention model
+%
+% To calculate volumetric water content ($\theta_v$) given the soil matric potential the model is:
+%
+% $$ \frac{\theta_v - \theta_r}{\theta_s - \theta_r} = \bigg[\frac{1}{1+(\alpha \psi_m)^n)}\bigg]^m $$
+%
+
+%%
+% Check input
+if ~isvector(variableValue)
+    error('variableValue must be a vector')
+end
+
+% Retrieve vG parameters for the selected textural class
+[~, theta_r, theta_s, alpha, n, m] = rosetta (texturalClass);
+
+%Calculate theta_v or matric potential (h) according to user specification.
+if strcmpi(variableName,'matric') % If input was matric potential then the function will calculate theta_v.
+    Output.theta = theta_r + (theta_s-theta_r)./(1+(alpha*variableValue).^n).^m;
+    
+elseif strcmpi(variableName,'theta') % If inputs was theta_v, then the output will be the matric potential.
+    Output.h = ( ( ( ( (variableValue-theta_r)/(theta_s-theta_r) ).^(-1/m) )-1).^ (1/n) ) / alpha;
+    
+else
+    error('Please type a valid variableName'); % If the input "variableName" does not match 
+% one of the categories before, it will return an error message.
+
+end
+
+%%
+% Copyright 2013 _This function is part of the Soil Physics Toolbox  created by the Soil 
+% Physics team at the Plant and Soil Sciences Department, Oklahoma State University._
+%  
+##### SOURCE END #####
+--></body></html>

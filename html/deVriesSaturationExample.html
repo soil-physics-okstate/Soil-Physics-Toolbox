@@ -1,0 +1,172 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>deVries saturated sand example</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-12"><meta name="DC.source" content="deVriesSaturationExample.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>deVries saturated sand example</h1><p>Example of calculations of thermal conductivity based on examples by D.A. de Vries in Physics of Plant Environment by W.R. van Wijk, 1963. Chapter 7.</p><p><b>ASSUMPTIONS</b>:</p><div><ul><li>Granules have ellipsoidal shape;</li><li>Granules are so far apart that they do not interfere with each other, meaning that the temperature in and around of each granule is not affected by neighboring granules. This assumption does not hold very well in soils, and correction factors need to be applied under some circumstances.</li></ul></div><p><b>OBLATE SPHEROID</b>: an ellipsoid in which axes a=b&gt;c. ga, gb, and gc depend on the ratios among a,b,and c, meaning that the shape factors (also known as depolarisation factor) ga, gb, and gc are tightly related to the shape of the ellipsoid and not the its size. The following figure demonstrates the flexibility of considering the soil particles as oblate spheroids. Figure 1a shows the case for a clay-like soil particle, in which only two dimensions are significant. In contrast, Fig. 1b shows the representation of a sand particle, which has all three dimensions in similar proportions. This model results in a convenient and useful simplification to account for particle arrangement and area of contact in order to estimate the thermal conductivity of the soil.</p><p><img vspace="5" hspace="5" src="deVries_oblate_spheroid.png" alt=""> </p><p><b>NOTE</b>: Variables originally expressed in calories were converted in Joules (J) by using the factor 0.004184 J/mcal.</p><pre class="codeinput"><span class="comment">% QUARTZ SAND</span>
+<span class="comment">% This is a simple case in which only two subtances are</span>
+<span class="comment">% present. An alternative to this problem is the case of dry soil in which</span>
+<span class="comment">% only granular material and air are present.</span>
+
+<span class="comment">% SATURATED SAND EXAMPLE</span>
+quartz = 0.89; <span class="comment">% volume fraction of quartz in sand.</span>
+feldspar = 0.11; <span class="comment">% volume fraction of feldspar (and other solid particles) in sand.</span>
+rho_p = 2.64; <span class="comment">% Particle density [g cm-3]</span>
+Vs = 0.573; <span class="comment">% Volume fraction of solids.</span>
+porosity = 1-Vs; <span class="comment">% Soil total porosity;</span>
+theta_v = porosity; <span class="comment">% In this case soil water content is equal to total porosity.</span>
+x1 = quartz*Vs; <span class="comment">% Volume fraction of quartz.</span>
+x2 = feldspar*Vs; <span class="comment">% Volume fraction of feldspar (and other solid particles).</span>
+lambda_q = [20.4 19.0 17.8 16.9]*0.004184*100; <span class="comment">% Thermal conductivity (lambda) values [W/m/K] for quartz at 20, 40, 60, and 75 &deg;C.</span>
+lambda_f = 7.0*0.004184*100; <span class="comment">% For other minerals, such as feldspar, values of lambda are approximately 7.0 mcal cm-1 sec-1 &deg;C-1.</span>
+lambda_w = 1.42*0.004184*100; <span class="comment">% Thermal conductivity [W/m/K] of water at 20 &deg;C. Howver, at 10 &deg;C, water has lambda equal to 1.37 mcal cm-1 s-1 &deg;C-1.</span>
+ga = 0.144; <span class="comment">% shape factor for the solid particles, this corresponds to a ratio of ~4 between the axes of an oblate spheroid.</span>
+gb = ga; <span class="comment">% According to the assumption that we are working with an oblate ellipsoid.</span>
+gc = 1-ga-gb; <span class="comment">% Since all factors must add to 1.</span>
+
+<span class="comment">% Calculate k</span>
+<span class="comment">% k is the ratio of the average temperature gradient in the granules and</span>
+<span class="comment">% the corresponding quantity in the medium (de Vries, 1963. p 214).</span>
+k1 = 1/3*(2/(1+(lambda_q(1)/lambda_w-1)*ga)+1/(1+(lambda_q(1)/lambda_w-1)*gc));
+k2 = 1/3*(2/(1+(lambda_f/lambda_w-1)*ga)+1/(1+(lambda_f/lambda_w-1)*gc));
+
+<span class="comment">% Calculate thermal conductivity of saturated soil.</span>
+lambda_satsoil = (theta_v*lambda_w + k1*x1*lambda_q(1) + k2*x2*lambda_f)/(theta_v + k1*x1 + k2*x2);
+
+
+<span class="comment">% Created by AP and TEO. 12/11/2013.</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% deVries saturated sand example
+% Example of calculations of thermal conductivity based on examples by D.A.
+% de Vries in Physics of Plant Environment by W.R. van Wijk, 1963.
+% Chapter 7.
+%
+% *ASSUMPTIONS*:
+%
+% * Granules have ellipsoidal shape;
+% * Granules are so far apart that they do not interfere with each other,
+% meaning that the temperature in and around of each granule is not
+% affected by neighboring granules. This assumption does not hold very well
+% in soils, and correction factors need to be applied under some 
+% circumstances.
+%
+% *OBLATE SPHEROID*: an ellipsoid in which axes a=b>c.
+% ga, gb, and gc depend on the ratios among a,b,and c, meaning that
+% the shape factors (also known as depolarisation factor) ga, gb, and gc
+% are tightly related to the shape of the ellipsoid and not the its size.
+% The following figure demonstrates the flexibility of considering the soil
+% particles as oblate spheroids. Figure 1a shows the case for a clay-like
+% soil particle, in which only two dimensions are significant. In contrast,
+% Fig. 1b shows the representation of a sand particle, which has all three 
+% dimensions in similar proportions. This model results in a convenient and 
+% useful simplification to account for particle arrangement and area of 
+% contact in order to estimate the thermal conductivity of the soil.
+%
+% <<deVries_oblate_spheroid.png>>
+%
+% *NOTE*: Variables originally expressed in calories were converted in Joules
+% (J) by using the factor 0.004184 J/mcal.
+%
+
+% QUARTZ SAND
+% This is a simple case in which only two subtances are
+% present. An alternative to this problem is the case of dry soil in which
+% only granular material and air are present.
+
+% SATURATED SAND EXAMPLE
+quartz = 0.89; % volume fraction of quartz in sand.
+feldspar = 0.11; % volume fraction of feldspar (and other solid particles) in sand.
+rho_p = 2.64; % Particle density [g cm-3]
+Vs = 0.573; % Volume fraction of solids.
+porosity = 1-Vs; % Soil total porosity;
+theta_v = porosity; % In this case soil water content is equal to total porosity.
+x1 = quartz*Vs; % Volume fraction of quartz.
+x2 = feldspar*Vs; % Volume fraction of feldspar (and other solid particles).
+lambda_q = [20.4 19.0 17.8 16.9]*0.004184*100; % Thermal conductivity (lambda) values [W/m/K] for quartz at 20, 40, 60, and 75 °C. 
+lambda_f = 7.0*0.004184*100; % For other minerals, such as feldspar, values of lambda are approximately 7.0 mcal cm-1 sec-1 °C-1.
+lambda_w = 1.42*0.004184*100; % Thermal conductivity [W/m/K] of water at 20 °C. Howver, at 10 °C, water has lambda equal to 1.37 mcal cm-1 s-1 °C-1.
+ga = 0.144; % shape factor for the solid particles, this corresponds to a ratio of ~4 between the axes of an oblate spheroid.
+gb = ga; % According to the assumption that we are working with an oblate ellipsoid.
+gc = 1-ga-gb; % Since all factors must add to 1.
+
+% Calculate k
+% k is the ratio of the average temperature gradient in the granules and
+% the corresponding quantity in the medium (de Vries, 1963. p 214).
+k1 = 1/3*(2/(1+(lambda_q(1)/lambda_w-1)*ga)+1/(1+(lambda_q(1)/lambda_w-1)*gc));
+k2 = 1/3*(2/(1+(lambda_f/lambda_w-1)*ga)+1/(1+(lambda_f/lambda_w-1)*gc));
+
+% Calculate thermal conductivity of saturated soil.
+lambda_satsoil = (theta_v*lambda_w + k1*x1*lambda_q(1) + k2*x2*lambda_f)/(theta_v + k1*x1 + k2*x2);
+
+
+% Created by AP and TEO. 12/11/2013.
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

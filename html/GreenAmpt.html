@@ -1,0 +1,299 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>GreenAmpt</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-12"><meta name="DC.source" content="GreenAmpt.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>GreenAmpt</h1><!--introduction--><p>Infiltration model at constant rainfall.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Model description</a></li><li><a href="#3">Assumptions</a></li><li><a href="#4">Inputs</a></li><li><a href="#5">Outputs</a></li><li><a href="#6">Example</a></li><li><a href="#9">See also</a></li><li><a href="#10">References</a></li><li><a href="#11">Updates</a></li></ul></div><h2>Syntax<a name="1"></a></h2><p><tt>[i, t, tp, I, Ip, L] = GreenAmpt (Ko, rainfall, theta, hf)</tt></p><h2>Model description<a name="2"></a></h2><p>This approach assumes constant rainfall infiltration and uses a "time compression approximation" as described by Kutilek (1980). The model was developed by Green and Ampt in 1911.</p><h2>Assumptions<a name="3"></a></h2><div><ul><li>The soil in the wetted region has constant properties.</li><li>The matric potential at the wetting front is constant and equal to hf.</li></ul></div><h2>Inputs<a name="4"></a></h2><pre>     Ko = Hydraulic conductivity in the wetting front. This value is
+     different from saturated hydraulic conductivity (Ksat), and it is
+     usually assumed to be 1/2*Ksat. Unit is in [cm/h]. Scalar.</pre><pre>     rainfall = vector of two elements. The first element, rainfall(1), is
+     the rainfall rate in [cm/h], and the second element, rainfall(2),
+     is the duration of the rainfall event in [h].</pre><pre>     theta = vector of two elements. The first element of the vector is
+     the initial volumetric water content, and the second element is the
+     volumetric water content at the wetting front [cm3/cm3].</pre><pre>     hf = scalar describing the matric potential of the soil (negative value) at the wetting
+     front, usually represented as hf. This is the matric potential corresponding to thetaf.
+     It is sometimes assumed to be similar to the bubbling pressure [cm].</pre><h2>Outputs<a name="5"></a></h2><pre>     i = infiltration rate [cm/h].
+     tp = Ponding time [h].
+     I = cumulative infiltration [cm].
+     Ip = Cumulative infiltration at ponding time [cm].
+     L = Depth of the wetting front [cm].</pre><h2>Example<a name="6"></a></h2><p>For a soil with a <tt>Ko</tt>=0.44 cm/h receiving a rainfall with intensity of 5 cm/h for a period of 2 hours, initial soil water content of 0.250 cm3/cm3 and a soil volumetric water content in the wetting front assumed to be a value similar to the total porosity, and matric potential at the surface at ponding time is equal to zero (<tt>ho</tt>=0) and a matric potential at the wetting front similar to the bubling pressure of the soil <tt>hf</tt>=-20 cm, then the function in Matlab can be called as follows:</p><pre class="codeinput">[i, tp, I, Ip] = GreenAmpt (0.44,[5 2] , [0.25 0.5], -20);
+</pre><pre>     Ponding time = 0.10 hours
+     Wetting front depth = 14.12 cm</pre><p><img vspace="5" hspace="5" src="GreenAmpt_plot1.png" alt=""> </p><h2>See also<a name="9"></a></h2><p><a href="greenamptpar.html">greenamptpar</a></p><h2>References<a name="10"></a></h2><p>Green W.H. and Ampt G.A. 1911. Studies on soil physics, 1. The flow of air and water through soils. J. Agric. Sci, 1911.</p><p>Kutilek, M. 1980. Constant-Rainfall Infiltration. J Hydrol 45: 289-303. doi:Doi 10.1016/0022-1694(80)90025-6.</p><p>Mein, R.G. and Larson, C.L. 1973. Modeling Infiltration during a Steady Rain. Water Resour Res 9: 384-394. doi:Doi 10.1029/Wr009i002p00384.</p><h2>Updates<a name="11"></a></h2><p>Created by Andres Patrignani and Tyson Ochsner  02-Oct-2013</p><pre class="codeinput"><span class="comment">% Define variables</span>
+r = rainfall(1);
+tr = rainfall(2);
+delta_theta = theta(2)-theta(1);
+ho = 0;
+delta_h = ho-hf;
+I = 0:0.01:r*tr; <span class="comment">% Define iteration steps. Maximum cumulative infiltration...</span>
+<span class="comment">% should be equal to rainfall intensity (r) times the duration of the rainfall event (tr).</span>
+
+<span class="comment">% Step 1 -  Caluclate hypothetical ponded infiltration (Ip) corresponding to ip=r.</span>
+Ip = delta_theta*delta_h /(r/Ko-1);
+
+<span class="comment">% Step 2 - Calculate time required for rainfall to supply Ip.</span>
+tp = delta_h*delta_theta/(r*(r/Ko-1));
+<span class="comment">% tp can also be calculated as tp=Ip/r, for constant r.</span>
+
+<span class="comment">% Pre-allocate memory</span>
+tponded = nan(1,length(I));
+iponded = nan(1,length(I));
+t = nan(1,length(I));
+i = nan(1,length(I));
+<span class="keyword">for</span> j=1:length(I)
+    <span class="comment">% Step 3 Calculate constant ponding curve</span>
+    tponded(j) = 1/Ko * (I(j)- delta_h*delta_theta*log((delta_h*delta_theta+I(j))/(delta_h*delta_theta)));
+    iponded(j) = Ko*(1+delta_h*delta_theta/I(j));
+
+    <span class="comment">% Step 4 - Calculate time t at which each arbitrary cumulative infiltration (I) occurs.</span>
+    <span class="keyword">if</span> I(j)&lt;Ip
+       t(j) = I(j)/r;
+    <span class="keyword">elseif</span> I(j)==Ip
+        t(j) = tp;
+    <span class="keyword">else</span>
+        t(j) = tp+1/Ko * (I(j)-Ip- delta_h*delta_theta*log((delta_h*delta_theta+I(j))/(delta_h*delta_theta+Ip)));
+    <span class="keyword">end</span>
+
+    <span class="comment">% Step 5 - Calculate infiltration rate</span>
+    <span class="keyword">if</span> t(j)&lt;tp
+        i(j) = r;
+    <span class="keyword">elseif</span> t(j)&gt;=tp || t(j)&lt;=tr
+        i(j) = Ko*(1+delta_h*delta_theta/I(j));
+    <span class="keyword">else</span>
+        i(j) = 0;
+    <span class="keyword">end</span>
+
+    L = I./delta_theta;
+<span class="keyword">end</span>
+
+<span class="comment">% Truncate variables at the end of the rainfall event</span>
+j = t &lt;= tr; <span class="comment">%times before the end of the rainfall event</span>
+I = I(j); L = L(j); i = i(j); iponded = iponded(j); t = t(j); tponded = tponded(j);
+
+<span class="comment">% Plot</span>
+plot(t,i,<span class="string">'-k'</span>); hold <span class="string">all</span>
+plot(tponded, iponded,<span class="string">'--k'</span>)
+legend ([<span class="string">'Constant flux infiltration at '</span>,num2str(r),<span class="string">' cm/h'</span>],<span class="string">'Continuous ponding infiltration'</span>)
+legend <span class="string">boxoff</span>
+xlabel(<span class="string">'Time (h)'</span>,<span class="string">'FontSize'</span>,13)
+ylabel(<span class="string">'Infiltration rate i (cm/h)'</span>,<span class="string">'FontSize'</span>,13);
+minY = max((min(iponded)-1),0);
+maxX = max(tr,2);
+xlim([0 maxX])
+maxY = max(i+1);
+ylim([minY maxY])
+set(gca,<span class="string">'FontSize'</span>,13)
+disp ([<span class="string">'Ponding time = '</span>,num2str(sprintf (<span class="string">'%.2f'</span>,tp)),<span class="string">' hours'</span>])
+disp([<span class="string">'Wetting front depth = '</span>,num2str(sprintf(<span class="string">'%.2f'</span>,max(L))),<span class="string">' cm'</span>])
+</pre><p>Copyright 2013 <i>This function is part of the Soil Physics Toolbox  created by the Soil Physics team at the Plant and Soil Sciences Department, Oklahoma State University.</i></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% GreenAmpt
+% Infiltration model at constant rainfall.
+%
+%% Syntax
+%
+% |[i, t, tp, I, Ip, L] = GreenAmpt (Ko, rainfall, theta, hf)|
+%
+%% Model description
+% This approach assumes constant rainfall infiltration and uses a "time
+% compression approximation" as described by Kutilek (1980). The model was
+% developed by Green and Ampt in 1911.
+%
+%% Assumptions
+% * The soil in the wetted region has constant properties. 
+% * The matric potential at the wetting front is constant and equal to hf.
+%
+%% Inputs
+%       Ko = Hydraulic conductivity in the wetting front. This value is
+%       different from saturated hydraulic conductivity (Ksat), and it is
+%       usually assumed to be 1/2*Ksat. Unit is in [cm/h]. Scalar.
+%       
+%       rainfall = vector of two elements. The first element, rainfall(1), is
+%       the rainfall rate in [cm/h], and the second element, rainfall(2),
+%       is the duration of the rainfall event in [h].
+%
+%       theta = vector of two elements. The first element of the vector is 
+%       the initial volumetric water content, and the second element is the
+%       volumetric water content at the wetting front [cm3/cm3].
+%
+%       hf = scalar describing the matric potential of the soil (negative value) at the wetting 
+%       front, usually represented as hf. This is the matric potential corresponding to thetaf.
+%       It is sometimes assumed to be similar to the bubbling pressure [cm].
+%   
+%% Outputs
+%       i = infiltration rate [cm/h].
+%       tp = Ponding time [h].
+%       I = cumulative infiltration [cm].
+%       Ip = Cumulative infiltration at ponding time [cm].
+%       L = Depth of the wetting front [cm].
+%
+%% Example 
+%
+% For a soil with a |Ko|=0.44 cm/h receiving a rainfall with intensity of
+% 5 cm/h for a period of 2 hours, initial soil water content of 0.250
+% cm3/cm3 and a soil volumetric water content in the wetting front assumed
+% to be a value similar to the total porosity, and matric potential at the
+% surface at ponding time is equal to zero (|ho|=0) and a matric potential at
+% the wetting front similar to the bubling pressure of the soil |hf|=-20 cm,
+% then the function in Matlab can be called as follows:
+%
+[i, tp, I, Ip] = GreenAmpt (0.44,[5 2] , [0.25 0.5], -20);
+%%
+%       Ponding time = 0.10 hours
+%       Wetting front depth = 14.12 cm
+%%
+% <<GreenAmpt_plot1.png>>
+%
+%% See also
+% <greenamptpar.html greenamptpar>
+%
+%% References
+% Green W.H. and Ampt G.A. 1911. Studies on soil physics, 1. The flow of air
+% and water through soils. J. Agric. Sci, 1911.
+%
+% Kutilek, M. 1980. Constant-Rainfall Infiltration. J Hydrol 45: 289-303. 
+% doi:Doi 10.1016/0022-1694(80)90025-6. 
+%
+% Mein, R.G. and Larson, C.L. 1973. Modeling Infiltration during a Steady Rain. 
+% Water Resour Res 9: 384-394. doi:Doi 10.1029/Wr009i002p00384.
+%
+%% Updates
+% Created by Andres Patrignani and Tyson Ochsner  02-Oct-2013
+%
+
+%%
+%
+
+% Define variables
+r = rainfall(1);
+tr = rainfall(2);
+delta_theta = theta(2)-theta(1);
+ho = 0;
+delta_h = ho-hf;
+I = 0:0.01:r*tr; % Define iteration steps. Maximum cumulative infiltration... 
+% should be equal to rainfall intensity (r) times the duration of the rainfall event (tr).
+
+% Step 1 -  Caluclate hypothetical ponded infiltration (Ip) corresponding to ip=r.
+Ip = delta_theta*delta_h /(r/Ko-1);
+
+% Step 2 - Calculate time required for rainfall to supply Ip.
+tp = delta_h*delta_theta/(r*(r/Ko-1));
+% tp can also be calculated as tp=Ip/r, for constant r.
+
+% Pre-allocate memory
+tponded = nan(1,length(I));
+iponded = nan(1,length(I));
+t = nan(1,length(I));
+i = nan(1,length(I));
+for j=1:length(I)
+    % Step 3 Calculate constant ponding curve
+    tponded(j) = 1/Ko * (I(j)- delta_h*delta_theta*log((delta_h*delta_theta+I(j))/(delta_h*delta_theta)));
+    iponded(j) = Ko*(1+delta_h*delta_theta/I(j));
+    
+    % Step 4 - Calculate time t at which each arbitrary cumulative infiltration (I) occurs.
+    if I(j)<Ip
+       t(j) = I(j)/r;
+    elseif I(j)==Ip
+        t(j) = tp;
+    else
+        t(j) = tp+1/Ko * (I(j)-Ip- delta_h*delta_theta*log((delta_h*delta_theta+I(j))/(delta_h*delta_theta+Ip)));
+    end
+    
+    % Step 5 - Calculate infiltration rate
+    if t(j)<tp
+        i(j) = r;
+    elseif t(j)>=tp || t(j)<=tr
+        i(j) = Ko*(1+delta_h*delta_theta/I(j));
+    else
+        i(j) = 0;     
+    end  
+    
+    L = I./delta_theta; 
+end
+
+% Truncate variables at the end of the rainfall event
+j = t <= tr; %times before the end of the rainfall event
+I = I(j); L = L(j); i = i(j); iponded = iponded(j); t = t(j); tponded = tponded(j);
+
+% Plot
+plot(t,i,'-k'); hold all
+plot(tponded, iponded,'REPLACE_WITH_DASH_DASHk')
+legend (['Constant flux infiltration at ',num2str(r),' cm/h'],'Continuous ponding infiltration')
+legend boxoff
+xlabel('Time (h)','FontSize',13)
+ylabel('Infiltration rate i (cm/h)','FontSize',13);
+minY = max((min(iponded)-1),0);
+maxX = max(tr,2);
+xlim([0 maxX])
+maxY = max(i+1);
+ylim([minY maxY])
+set(gca,'FontSize',13)
+disp (['Ponding time = ',num2str(sprintf ('%.2f',tp)),' hours'])
+disp(['Wetting front depth = ',num2str(sprintf('%.2f',max(L))),' cm'])
+
+%%
+% Copyright 2013 _This function is part of the Soil Physics Toolbox  created by the Soil 
+% Physics team at the Plant and Soil Sciences Department, Oklahoma State University._
+%
+##### SOURCE END #####
+--></body></html>
