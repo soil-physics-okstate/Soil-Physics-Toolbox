@@ -1,4 +1,4 @@
-%Authors' names omitted
+%Erik Krueger
 %12/5/2023
 
 %This file loads, processes, and graphs soil moisture and precipitation 
